@@ -1,0 +1,23 @@
+.img-350 {
+    height:350px;
+}
+
+.avatar {
+    width:100px;
+    height:100px;
+}
+
+.img-capa {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.img-wordcloud {
+    display: block;
+    max-width: 50%;
+    height: auto;
+  }
+
+object-position: bottom;
+
