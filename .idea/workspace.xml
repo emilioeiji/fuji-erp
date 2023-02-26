@@ -21,7 +21,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/emilio/Development/Django/blog"
   }
 }]]></component>
   <component name="RunManager">
@@ -69,16 +70,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commit inicial do ERP Fuji." />
     <option name="LAST_COMMIT_MESSAGE" value="Commit inicial do ERP Fuji." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

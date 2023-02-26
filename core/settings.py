@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'home.apps.HomeConfig',
+    'cadastro.apps.CadastroConfig',
 ]
 
 MIDDLEWARE = [

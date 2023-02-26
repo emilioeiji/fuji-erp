@@ -1,0 +1,343 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Cadastro Master {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="main">
+            <div class="py-4 text-center">
+                <h2>Cadastro Master</h2>
+            </div>
+
+            <div class="row g-5 justify-content-center">
+                <div class="col-xl-6 col-md-6">
+                    <form action="{% url 'cadastro_master' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row g-3">
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoEmpregado.label }}</label>
+                                    {{ form.codigoEmpregado }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.nomeJapones.label }}</label>
+                                    {{ form.nomeJapones }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.nomeRomanji.label }}</label>
+                                    {{ form.nomeRomanji }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataInicioUnidade.label }}</label>
+                                {{ form.dataInicioUnidade }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataDesligamentoUnidade.label }}</label>
+                                {{ form.dataDesligamentoUnidade }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataDAposentadoria.label }}</label>
+                                {{ form.dataDAposentadoria }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.observacoes.label }}</label>
+                                {{ form.observacoes }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.genero.label }}</label>
+                                {{ form.genero }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.sexo.label }}</label>
+                                {{ form.sexo }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.turno.label }}</label>
+                                {{ form.turno }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.cdLocalIntegrado.label }}</label>
+                                {{ form.cdLocalIntegrado }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoClassificacaoPreco.label }}</label>
+                                {{ form.codigoClassificacaoPreco }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoLocalTrabalho.label }}</label>
+                                {{ form.codigoLocalTrabalho }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.paisCidadania.label }}</label>
+                                {{ form.paisCidadania }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.salarioHR.label }}</label>
+                                {{ form.salarioHR }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.novaDataChegada.label }}</label>
+                                {{ form.novaDataChegada }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.precoUnitario.label }}</label>
+                                {{ form.precoUnitario }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.reentrada.label }}</label>
+                                {{ form.reentrada }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataIngressaoFA.label }}</label>
+                                {{ form.dataIngressaoFA }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataNascimento.label }}</label>
+                                {{ form.dataNascimento }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.nomeEmpresa.label }}</label>
+                                {{ form.nomeEmpresa }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.nomeKana.label }}</label>
+                                {{ form.nomeKana }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.nomeProcesso.label }}</label>
+                                {{ form.nomeProcesso }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoCdMurata.label }}</label>
+                                {{ form.codigoCdMurata }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.empregadoFinalMes.label }}</label>
+                                {{ form.empregadoFinalMes }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.andarPredioTrabalho.label }}</label>
+                                {{ form.andarPredioTrabalho }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.classificacaoContrato.label }}</label>
+                                {{ form.classificacaoContrato }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.categoriaGerente.label }}</label>
+                                {{ form.categoriaGerente }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.afiliacao.label }}</label>
+                                {{ form.afiliacao }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoORDIA.label }}</label>
+                                {{ form.codigoORDIA }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataInicioTrabalhoExpedicao.label }}</label>
+                                {{ form.dataInicioTrabalhoExpedicao }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoFuncionarioCD.label }}</label>
+                                {{ form.codigoFuncionarioCD }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.codigoEscritorio.label }}</label>
+                                {{ form.codigoEscritorio }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.salarioBrutoHR.label }}</label>
+                                {{ form.salarioBrutoHR }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.entradaCategoria.label }}</label>
+                                {{ form.entradaCategoria }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dao.label }}</label>
+                                {{ form.dao }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.categoriaRecrutamento.label }}</label>
+                                {{ form.categoriaRecrutamento }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.quantiaPaga.label }}</label>
+                                {{ form.quantiaPaga }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.icCard.label }}</label>
+                                {{ form.icCard }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.unidadeCard.label }}</label>
+                                {{ form.unidadeCard }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.numeroAs.label }}</label>
+                                {{ form.numeroAs }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.classificacaoContrato.label }}</label>
+                                {{ form.classificacaoContrato }}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <label class="form-label">{{ form.dataConversao.label }}</label>
+                                {{ form.dataConversao }}
+
+                            </div>
+
+                            <div class="col-6">
+                                <label for="{{ form_perfil.foto.id_for_label }}"
+                                      class="form-label">{{ form_perfil.foto.label }}</label>
+                                {% render_field form_perfil.foto class+='form-control' %}
+                            </div>
+
+                            <div class="mt-3"></div>
+
+                                <div id="button_submit">
+                                    <button class="w-100 btn btn-primary btn-lg" type="submit">Criar Conta</button>
+                                </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
