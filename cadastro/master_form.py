@@ -1,10 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.forms.models import ModelForm
 
 from cadastro.models import (Area, CdLocalIntegrado, ClassificacaoPreco,
                              Escritorio, Genero, Linha, LocalTrabalho, Master,
-                             NomeProcesso, Perfil, PrecoUnitario, Sexo, Turno)
+                             NomeProcesso, PrecoUnitario, Sexo, Turno)
 
 
 class MasterForm(ModelForm):
@@ -82,6 +81,7 @@ class MasterForm(ModelForm):
             'unidadeCard',
             'numeroAs',
             'dataConversao',
+            'foto',
         ]
         labels = {
             'codigoEmpregado': 'Código do Empregado',
@@ -126,6 +126,7 @@ class MasterForm(ModelForm):
             'unidadeCard': 'Unidade Card',
             'numeroAs': 'Número AS',
             'dataConversao': 'Data Conversão',
+            'foto': 'Foto Colaborador',
         }
         widgets = {
             'codigoEmpregado': forms.TextInput(attrs={'class': 'form-control'}),
@@ -140,7 +141,7 @@ class MasterForm(ModelForm):
             'codigoLocalTrabalho': forms.TextInput(attrs={'class': 'form-control'}),
             'paisCidadania': forms.TextInput(attrs={'class': 'form-control'}),
             'salarioHR': forms.TextInput(attrs={'class': 'form-control'}),
-            'novaDataChegada': forms.TextInput(attrs={'class': 'form-control'}),
+            'novaDataChegada': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
             'precoUnitario': forms.TextInput(attrs={'class': 'form-control'}),
             'reentrada': forms.TextInput(attrs={'class': 'form-control'}),
             'dataIngressaoFA': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
@@ -155,7 +156,7 @@ class MasterForm(ModelForm):
             'categoriaGerente': forms.TextInput(attrs={'class': 'form-control'}),
             'afiliacao': forms.TextInput(attrs={'class': 'form-control'}),
             'codigoORDIA': forms.TextInput(attrs={'class': 'form-control'}),
-            'dataInicioTrabalhoExpedicao': forms.TextInput(attrs={'class': 'form-control'}),
+            'dataInicioTrabalhoExpedicao': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
             'codigoFuncionarioCD': forms.TextInput(attrs={'class': 'form-control'}),
             'codigoEscritorio': forms.TextInput(attrs={'class': 'form-control'}),
             'salarioBrutoHR': forms.TextInput(attrs={'class': 'form-control'}),
@@ -167,14 +168,5 @@ class MasterForm(ModelForm):
             'unidadeCard': forms.TextInput(attrs={'class': 'form-control'}),
             'numeroAs': forms.TextInput(attrs={'class': 'form-control'}),
             'dataConversao': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
+            'foto': forms.FileInput(attrs={'class': 'form-control'}),
         }
-
-
-class PerfilForm(ModelForm):
-    class Meta:
-        model = Perfil
-        fields = ['foto']
-
-    widget = {
-        'foto': forms.ImageField()
-    }

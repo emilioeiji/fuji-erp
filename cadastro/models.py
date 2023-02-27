@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from contas.models import Perfil
+
 
 class Unidade(models.Model):
     unidade = models.CharField(max_length=10, help_text="Unidade Murata")
@@ -107,7 +109,7 @@ class LocalTrabalho(models.Model):
     nomeLocalTrabalho = models.CharField(
         max_length=20, help_text="Nome abreviado")
 
-    def __strt__(self):
+    def __str__(self):
         return str(self.codigoLocalTrabalho) + " " + self.nomeLocalTrabalho
 
 
@@ -192,9 +194,21 @@ class Master(models.Model):
     numeroAs = models.IntegerField(blank=True, null=True)
     classificacaoContrato = models.CharField(max_length=10)
     dataConversao = models.DateField(blank=True, null=True)
+    foto = models.ImageField(blank=True, null=True,
+                             default='', upload_to='cadastro/fotos')
 
     def __str__(self):
         return str(self.codigoEmpregado) + " " + self.nomeRomanji + " " + self.nomeJapones
+
+
+@receiver(post_save, sender=Master)
+def criar_usuario_master(sender, instance, created, **kwargs):
+    if created:
+        username = instance.codigoEmpregado
+        password = instance.dataNascimento.strftime('%Y%m%d')
+        user = User.objects.create_user(username=username, password=password)
+        perfil = Perfil.objects.create(
+            usuario=user, area=instance.afiliacao, cargo=instance.nomeProcesso, foto_perfil=instance.foto)
 
 
 class MasterApartamentos(models.Model):
@@ -224,21 +238,3 @@ class MasterApartamentos(models.Model):
 
     def __str__(self):
         return str(self.codigoEmpregado)
-
-
-class Perfil(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
-    foto = models.ImageField(blank=True, null=True,
-                             default='', upload_to='cadastro/fotos')
-
-
-@receiver(post_save, sender=User)
-def criar_perfil_usuario(sender, instance, created, **kwargs):
-    if created:
-        Perfil.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def salvar_perfil_usuario(sender, instance, **kwargs):
-    instance.perfil.save()

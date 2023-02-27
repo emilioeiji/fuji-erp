@@ -1,23 +1,16 @@
-from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
-from .master_form import MasterForm, PerfilForm
-from .models import Master, Perfil
+from .master_form import MasterForm
+from .models import Master
 
 
 def cadastro_master(request):
     if request.method == 'POST':
 
-        mt = MasterForm(request.POST)
-        perfil = PerfilForm(request.POST)
+        mt = MasterForm(request.POST, request.FILES)
 
         if mt.is_valid():
-            usr = User.objects.create_user(
-                first_name=mt.cleaned_data['nomeRomanji'],
-                username=mt.cleaned_data['codigoEmpregado'],
-                password=str('teste123')
-            )
 
             master = Master(
                 codigoEmpregado=mt.cleaned_data['codigoEmpregado'],
@@ -62,17 +55,13 @@ def cadastro_master(request):
                 unidadeCard=mt.cleaned_data['unidadeCard'],
                 numeroAs=mt.cleaned_data['numeroAs'],
                 dataConversao=mt.cleaned_data['dataConversao'],
+                foto=mt.cleaned_data['foto'],
             )
 
-            perl = Perfil(
-                foto=perfil.cleaned_data['foto'],
-                user=usr
-            )
-
-            perl.save()
             master.save()
+            return redirect('cadastro_master')
         else:
             return HttpResponse('Erro')
 
     else:
-        return render(request, 'cadastro/cadastro_master.html', {'form': MasterForm(), 'form_perfil': PerfilForm()})
+        return render(request, 'cadastro/cadastro_master.html', {'form': MasterForm()})

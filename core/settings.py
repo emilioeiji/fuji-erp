@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'home.apps.HomeConfig',
     'cadastro.apps.CadastroConfig',
+    'contas.apps.ContasConfig',
 ]
 
 MIDDLEWARE = [
