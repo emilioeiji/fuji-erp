@@ -1,6 +1,7 @@
 asgiref==3.6.0
 autopep8==2.0.1
 Django==4.1.7
+django-template-utils==0.1.1
 django-widget-tweaks==1.4.12
 flake8==6.0.0
 mccabe==0.7.0

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'cadastro.apps.CadastroConfig',
     'contas.apps.ContasConfig',
+    'calendario.apps.CalendarioConfig'
 ]
 
 MIDDLEWARE = [
