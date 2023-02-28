@@ -7,15 +7,15 @@
 
 {% block content %}
 
-    <table>
-        <thead>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
         <tr>
             <th>Funcionário</th>
             {% for dia in dias_do_mes %}
             <th>{{ dia }}</th>
             {% endfor %}
         </tr>
-        </thead>
+        </thead >
         <tbody>
         {% regroup calendario by funcionario as funcionarios %}
         {% for funcionario in funcionarios %}
