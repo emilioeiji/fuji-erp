@@ -37,9 +37,24 @@
                       </ul>
                 </li>
 
-                <li class="nav-item my-auto">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item my-auto">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            {% if user.perfil.foto %}
+                                    <img src="{{ user.perfil.foto.url }}"
+                                         class="rounded-circle" alt="{{ user.username }}"
+                                         style="height:30px; width:30px;">
+                            {% else %}
+                                <span>{{ user.username }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+
             </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
