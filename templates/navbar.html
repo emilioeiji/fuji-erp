@@ -40,8 +40,8 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item my-auto">
                         <a class="nav-link" href="{% url 'login' %}">
-                            {% if user.perfil.foto %}
-                                    <img src="{{ user.perfil.foto.url }}"
+                            {% if user.perfil.foto_perfil %}
+                                    <img src=" img/{{ user.perfil.foto_perfil }}"
                                          class="rounded-circle" alt="{{ user.username }}"
                                          style="height:30px; width:30px;">
                             {% else %}
