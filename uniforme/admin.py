@@ -4,3 +4,6 @@ from uniforme import models
 
 admin.site.register(models.Tamanho)
 admin.site.register(models.Uniforme)
+admin.site.register(models.Estoque)
+admin.site.register(models.Solicitacao)
+admin.site.register(models.ItemSolicitacao)
