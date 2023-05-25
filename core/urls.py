@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('cadastro/', include('cadastro.urls')),
     path('contas/', include('contas.urls')),
-    path('calendario/', include('calendario.urls'))
+    path('calendario/', include('calendario.urls')),
+    path('uniforme/', include('uniforme.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
