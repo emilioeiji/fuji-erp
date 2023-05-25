@@ -1,27 +1,54 @@
+from itertools import groupby
+
 from django.shortcuts import redirect, render
 
-from .forms import ItemSolicitacaoFormSet, SolicitacaoUniformeForm
+from cadastro.models import Master
+
+from .models import ItemSolicitacao, Solicitacao, Tamanho, Uniforme
 
 
 def solicitar_uniformes(request):
+    uniformes = Uniforme.objects.all().order_by('descricao')
+    uniformes_agrupados = [
+        {
+            'descricao': descricao,
+            'tamanhos': Tamanho.objects.filter(estoque__uniforme__descricao=descricao),
+        }
+        for descricao, _ in groupby(uniformes, lambda item: item.descricao)
+    ]
+
     if request.method == 'POST':
-        form = SolicitacaoUniformeForm(request.POST)
-        formset = ItemSolicitacaoFormSet(request.POST)
+        funcionario_id = request.POST.get('funcionario')
+        usuario = request.user
 
-        if form.is_valid() and formset.is_valid():
-            solicitacao = form.save(commit=False)
-            solicitacao.usuario = request.user
-            solicitacao.save()
+        solicitacao = Solicitacao.objects.create(
+            funcionario_id=funcionario_id, usuario=usuario
+        )
 
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.solicitacao = solicitacao
-                instance.save()
+        for item in uniformes_agrupados:
+            uniforme_descricao = item['descricao']
+            tamanhos = item['tamanhos']
 
-            # Redireciona para uma página de sucesso
-            return redirect('sucesso')
-    else:
-        form = SolicitacaoUniformeForm()
-        formset = ItemSolicitacaoFormSet()
+            for tamanho in tamanhos:
+                quantidade_key = f'quantidade_{uniforme_descricao}_{tamanho.id}'
+                quantidade = int(request.POST.get(quantidade_key, 0))
 
-    return render(request, 'uniforme/solicitar_uniformes.html', {'form': form, 'formset': formset})
+                if quantidade > 0:
+                    uniforme = Uniforme.objects.get(
+                        descricao=uniforme_descricao)
+
+                    ItemSolicitacao.objects.create(
+                        solicitacao=solicitacao,
+                        uniforme=uniforme,
+                        tamanho=tamanho,
+                        quantidade=quantidade
+                    )
+
+        return redirect('sucesso')  # Redireciona para uma página de sucesso
+
+    funcionarios = Master.objects.all()
+
+    return render(request, 'uniforme/solicitar_uniformes.html', {
+        'uniformes_agrupados': uniformes_agrupados,
+        'funcionarios': funcionarios
+    })

@@ -22,13 +22,16 @@ class Uniforme (models.Model):
 
 
 class Estoque(models.Model):
-    uniforme = models.OneToOneField(
+    uniforme = models.ForeignKey(
         Uniforme, on_delete=models.CASCADE, related_name='estoque')
     tamanho = models.ForeignKey(Tamanho, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        unique_together = ['uniforme', 'tamanho']
+
     def __str__(self):
-        return f"{self.uniforme.descricao} - Tamanho: {self.tamanho} - Estoque: {self.quantidade}"
+        return f"Uniforme: {self.uniforme.descricao} - Tamanho: {self.tamanho} - Estoque: {self.quantidade}"
 
 
 class Solicitacao(models.Model):
