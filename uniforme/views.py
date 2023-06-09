@@ -1,54 +1,62 @@
-from itertools import groupby
-
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from cadastro.models import Master
 
-from .models import ItemSolicitacao, Solicitacao, Tamanho, Uniforme
+from .models import (ItemSolicitacao, Solicitacao, StatusSolicitacao, Tamanho,
+                     Uniforme)
 
 
 def solicitar_uniformes(request):
-    uniformes = Uniforme.objects.all().order_by('descricao')
-    uniformes_agrupados = [
-        {
-            'descricao': descricao,
-            'tamanhos': Tamanho.objects.filter(estoque__uniforme__descricao=descricao),
-        }
-        for descricao, _ in groupby(uniformes, lambda item: item.descricao)
-    ]
+    uniformes = Uniforme.objects.all()
+    status_solicitacao = StatusSolicitacao.objects.all()
+    funcionarios = Master.objects.all()
 
     if request.method == 'POST':
         funcionario_id = request.POST.get('funcionario')
-        usuario = request.user
+        status_id = request.POST.get('status')
 
-        solicitacao = Solicitacao.objects.create(
-            funcionario_id=funcionario_id, usuario=usuario
-        )
+        if funcionario_id and status_id:
+            print('aqui')
+            funcionario = Master.objects.get(pk=funcionario_id)
+            status = StatusSolicitacao.objects.get(pk=status_id)
 
-        for item in uniformes_agrupados:
-            uniforme_descricao = item['descricao']
-            tamanhos = item['tamanhos']
+            solicitacao = Solicitacao.objects.create(
+                usuario=request.user,
+                funcionario=funcionario,
+                status=status
+            )
 
-            for tamanho in tamanhos:
-                quantidade_key = f'quantidade_{uniforme_descricao}_{tamanho.id}'
-                quantidade = int(request.POST.get(quantidade_key, 0))
+            for i in range(1, 6):
+                uniforme_id = request.POST.get(f'uniforme{i}')
+                quantidade = request.POST.get(f'quantidade{i}')
 
-                if quantidade > 0:
-                    uniforme = Uniforme.objects.get(
-                        descricao=uniforme_descricao)
+                if uniforme_id and quantidade:
+                    uniforme = Uniforme.objects.get(pk=uniforme_id)
 
-                    ItemSolicitacao.objects.create(
+                    item = ItemSolicitacao.objects.create(
                         solicitacao=solicitacao,
-                        uniforme=uniforme,
-                        tamanho=tamanho,
+                        uniforme_tamanho=uniforme,
                         quantidade=quantidade
                     )
 
-        return redirect('sucesso')  # Redireciona para uma página de sucesso
+            return redirect('listar_solicitacoes')
 
-    funcionarios = Master.objects.all()
+    context = {
+        'uniformes': uniformes,
+        'status_solicitacao': status_solicitacao,
+        'funcionarios': funcionarios,
+    }
 
-    return render(request, 'uniforme/solicitar_uniformes.html', {
-        'uniformes_agrupados': uniformes_agrupados,
-        'funcionarios': funcionarios
-    })
+    return render(request, 'uniforme/solicitar_uniformes.html', context)
+
+
+def listar_solicitacoes(request):
+    solicitacoes = Solicitacao.objects.all().order_by('-id_solicitacao')
+    context = {'solicitacoes': solicitacoes}
+    return render(request, 'uniforme/listar_solicitacoes.html', context)
+
+
+def detalhar_solicitacao(request, id_solicitacao):
+    solicitacao = get_object_or_404(Solicitacao, id_solicitacao=id_solicitacao)
+    context = {'solicitacao': solicitacao}
+    return render(request, 'uniforme/detalhar_solicitacao.html', context)

@@ -1,0 +1,26 @@
+{% extends 'uniforme_base.html' %}
+{% load static %}
+
+{% block title %}Detalhes da Solicitação{% endblock %}
+
+{% block content %}
+
+    <h1>Detalhes da Solicitação</h1>
+    
+    <p>ID: {{ solicitacao.id_solicitacao }}</p>
+    <p>Funcionário: {{ solicitacao.funcionario.nomeRomanji }}</p>
+    <p>Status: {{ solicitacao.status.descricao }}</p>
+
+    <h2>Itens Solicitados</h2>
+    {% for item in solicitacao.itens.all %}
+        <p>Uniforme: {{ item.uniforme_tamanho.descricao }}</p>
+        <p>Tamanho: {{ item.uniforme_tamanho.tamanho.tamanho }}</p>
+        <p>Quantidade: {{ item.quantidade }}</p>
+        <!-- Adicione aqui os detalhes adicionais dos itens solicitados -->
+    {% empty %}
+        <p>Nenhum item solicitado.</p>
+    {% endfor %}
+
+    <a href="{% url 'listar_solicitacoes' %}" class="btn btn-primary">Voltar para a lista de solicitações</a>
+
+{% endblock %}

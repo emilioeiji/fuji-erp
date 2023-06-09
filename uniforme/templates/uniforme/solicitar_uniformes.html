@@ -2,68 +2,86 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block title %} Cadastro Master {% endblock %}
+{% block title %}Solicitar Uniformes{% endblock %}
 
 {% block content %}
+    <div class="container">
+        <h1>Solicitar Uniformes</h1>
+        <form action="{% url 'solicitar_uniformes' %}" method="POST">
+            {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
-    
-    <label for="funcionario">Funcionário:</label>
-    <select name="funcionario" id="funcionario">
-      {% for funcionario in funcionarios %}
-        <option value="{{ funcionario.id }}">{{ funcionario.nomeRomanji }}</option>
-      {% endfor %}
-    </select>
-    
-    <h3>Itens da Solicitação</h3>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Uniforme</th>
-            <th>Tamanho</th>
-            <th>Quantidade</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in uniformes_agrupados %}
-            {% with item.tamanhos|length as tamanho_count %}
-              {% for tamanho in item.tamanhos %}
-                {% if forloop.first %}
-                  <tr>
-                    <td rowspan="{{ tamanho_count }}">{{ item.descricao }}</td>
-                    <td>
-                      <select name="tamanho_{{ tamanho.uniforme.id }}" class="form-select">
-                        <option value="{{ tamanho.id }}">{{ tamanho.tamanho }}</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="number" name="quantidade_{{ tamanho.uniforme.id }}" value="0" min="0" class="form-control">
-                    </td>
-                  </tr>
-                {% else %}
-                  <tr>
-                    <td>
-                      <select name="tamanho_{{ tamanho.uniforme.id }}" class="form-select">
-                        <option value="{{ tamanho.id }}">{{ tamanho.tamanho }}</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="number" name="quantidade_{{ tamanho.uniforme.id }}" value="0" min="0" class="form-control">
-                    </td>
-                  </tr>
-                {% endif %}
-              {% endfor %}
-            {% endwith %}
-          {% endfor %}
-        </tbody>
-      </table>
+            <div class="form-group">
+                <label for="funcionario">Funcionário:</label>
+                <select name="funcionario" id="funcionario" class="form-control">
+                    <option value="">Selecione um funcionário</option>
+                    {% for funcionario in funcionarios %}
+                    <option value="{{ funcionario.pk }}">{{ funcionario.codigoEmpregado }} {{ funcionario.nomeRomanji }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="">Selecione um status</option>
+                    {% for status in status_solicitacao %}
+                    <option value="{{ status.pk }}">{{ status.descricao }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="itens-container">
+                <div class="item">
+                    <div class="form-group">
+                        <label for="uniforme1">Uniforme:</label>
+                        <select name="uniforme1" id="uniforme1" class="form-control">
+                            <option value="">Selecione um uniforme</option>
+                            {% for uniforme in uniformes %}
+                            <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade1">Quantidade:</label>
+                        <input type="number" name="quantidade1" id="quantidade1" class="form-control" value="1" min="1">
+                    </div>
+                </div>
+            </div>
+
+            <button id="adicionar-item" type="button" class="btn btn-primary">Adicionar Item</button>
+            <br><br>
+            <button type="submit" class="btn btn-success">Enviar Solicitação</button>
+        </form>
     </div>
-    
-    <input type="submit" value="Enviar solicitação" class="btn btn-primary">
-  </form>
-  
-  
 
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            var contador = 1;
+
+            $('#adicionar-item').click(function() {
+                contador++;
+
+                var novoItem = `
+                <div class="item">
+                    <div class="form-group">
+                        <label for="uniforme${contador}">Uniforme:</label>
+                        <select name="uniforme${contador}" id="uniforme${contador}" class="form-control">
+                            <option value="">Selecione um uniforme</option>
+                            {% for uniforme in uniformes %}
+                            <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade${contador}">Quantidade:</label>
+                        <input type="number" name="quantidade${contador}" id="quantidade${contador}" class="form-control" value="1" min="1">
+                    </div>
+                </div>
+                `;
+
+                $('#itens-container').append(novoItem);
+            });
+        });
+    </script>
 {% endblock %}

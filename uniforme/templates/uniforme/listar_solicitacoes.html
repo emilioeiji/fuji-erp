@@ -1,0 +1,37 @@
+{% extends 'uniforme_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Solicitar Uniformes{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Listar Solicitações</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID Solicitação</th>
+                <th>Usuário</th>
+                <th>Funcionário</th>
+                <th>Data da Solicitação</th>
+                <th>Detalhes</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solicitacao in solicitacoes %}
+            <tr>
+                <td>{{ solicitacao.id_solicitacao }}</td>
+                <td>{{ solicitacao.usuario }}</td>
+                <td>{{ solicitacao.funcionario.nomeRomanji }}</td>
+                <td>{{ solicitacao.data_ultima_atualizacao }}</td>
+                <td><a href="{% url 'detalhar_solicitacao' solicitacao.id_solicitacao %}" class="btn btn-primary">Detalhes</a></td>
+                <td><a href="#" class="btn btn-danger">Excluir</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
