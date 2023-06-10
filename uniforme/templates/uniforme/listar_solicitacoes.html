@@ -15,6 +15,7 @@
                 <th>Usuário</th>
                 <th>Funcionário</th>
                 <th>Data da Solicitação</th>
+                <th>Status</th>
                 <th>Detalhes</th>
                 <th>Excluir</th>
             </tr>
@@ -26,6 +27,7 @@
                 <td>{{ solicitacao.usuario }}</td>
                 <td>{{ solicitacao.funcionario.nomeRomanji }}</td>
                 <td>{{ solicitacao.data_ultima_atualizacao }}</td>
+                <td>{{ solicitacao.status }}</td>
                 <td><a href="{% url 'detalhar_solicitacao' solicitacao.id_solicitacao %}" class="btn btn-primary">Detalhes</a></td>
                 <td><a href="#" class="btn btn-danger">Excluir</a></td>
             </tr>

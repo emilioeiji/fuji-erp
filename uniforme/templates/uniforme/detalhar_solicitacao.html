@@ -21,6 +21,7 @@
         <p>Nenhum item solicitado.</p>
     {% endfor %}
 
+    <a href="{% url 'imprimir_solicitacao' solicitacao.id_solicitacao %}" class="btn btn-secconday">Imprimir</a>
     <a href="{% url 'listar_solicitacoes' %}" class="btn btn-primary">Voltar para a lista de solicitações</a>
 
 {% endblock %}

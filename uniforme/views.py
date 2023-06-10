@@ -60,3 +60,9 @@ def detalhar_solicitacao(request, id_solicitacao):
     solicitacao = get_object_or_404(Solicitacao, id_solicitacao=id_solicitacao)
     context = {'solicitacao': solicitacao}
     return render(request, 'uniforme/detalhar_solicitacao.html', context)
+
+
+def imprimir_solicitacao(request, id_solicitacao):
+    solicitacao = get_object_or_404(Solicitacao, id_solicitacao=id_solicitacao)
+    context = {'solicitacao': solicitacao}
+    return render(request, 'uniforme/imp_solicitacao.html', context)

@@ -8,4 +8,6 @@ urlpatterns = [
          name='listar_solicitacoes'),
     path('solicitacao/<int:id_solicitacao>/', views.detalhar_solicitacao,
          name='detalhar_solicitacao'),
+    path('solicitacao/imprimir/<int:id_solicitacao>/', views.imprimir_solicitacao,
+         name='imprimir_solicitacao'),
 ]
