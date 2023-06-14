@@ -6,81 +6,91 @@
 
 {% block content %}
     <div class="container">
-        <h1>Solicitação de uniforme</h1>
-        <form action="{% url 'solicitar_uniformes' %}" method="POST">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="funcionario">Funcionário:</label>
-                <select name="funcionario" id="funcionario" class="form-control">
-                    <option value="">Selecione um funcionário</option>
-                    {% for funcionario in funcionarios %}
-                    <option value="{{ funcionario.pk }}">{{ funcionario.codigoEmpregado }} {{ funcionario.nomeRomanji }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select name="status" id="status" class="form-control">
-                    <option value="">Selecione um status</option>
-                    {% for status in status_solicitacao %}
-                    <option value="{{ status.pk }}">{{ status.descricao }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div id="itens-container">
-                <div class="item">
+        <div class="row g-5 justify-content-center">
+            <div class="col-xl-5 col-md-5">
+                <h1>Solicitação de uniforme</h1>
+                <form action="{% url 'solicitar_uniformes' %}" method="POST">
+                    {% csrf_token %}
+        
                     <div class="form-group">
-                        <label for="uniforme1">Uniforme:</label>
-                        <select name="uniforme1" id="uniforme1" class="form-control">
-                            <option value="">Selecione um uniforme</option>
-                            {% for uniforme in uniformes %}
-                            <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }} </option>
+                        <label for="funcionario">Funcionário:</label>
+                        <select name="funcionario" id="funcionario" class="form-control">
+                            <option value="">Selecione um funcionário</option>
+                            {% for funcionario in funcionarios %}
+                            <option value="{{ funcionario.pk }}">{{ funcionario.codigoEmpregado }} {{ funcionario.nomeRomanji }}</option>
                             {% endfor %}
                         </select>
                     </div>
+        
                     <div class="form-group">
-                        <label for="quantidade1">Quantidade:</label>
-                        <input type="number" name="quantidade1" id="quantidade1" class="form-control" value="1" min="1">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="">Selecione um status</option>
+                            {% for status in status_solicitacao %}
+                            <option value="{{ status.pk }}">{{ status.descricao }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </div>
+        
+                    <div id="itens-container">
+                        <div class="item mt-3">
+                            <div class="form-group">
+                                <label for="uniforme1">Uniforme:</label>
+                                <select name="uniforme1" id="uniforme1" class="form-control">
+                                    <option value="">Selecione um uniforme</option>
+                                    {% for uniforme in uniformes %}
+                                    <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantidade1">Quantidade:</label>
+                                <input type="number" name="quantidade1" id="quantidade1" class="form-control" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+        
+                    <button id="adicionar-item" type="button" class="btn btn-primary mt-5">Adicionar Item</button>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">Enviar Solicitação</button>
+                </form>
             </div>
-
-            <button id="adicionar-item" type="button" class="btn btn-primary">Adicionar Item</button>
-            <br><br>
-            <button type="submit" class="btn btn-success">Enviar Solicitação</button>
-        </form>
+        </div>
     </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script>
         $(document).ready(function() {
             var contador = 1;
-
+    
             $('#adicionar-item').click(function() {
-                contador++;
-
-                var novoItem = `
-                <div class="item">
-                    <div class="form-group">
-                        <label for="uniforme${contador}">Uniforme:</label>
-                        <select name="uniforme${contador}" id="uniforme${contador}" class="form-control">
-                            <option value="">Selecione um uniforme</option>
-                            {% for uniforme in uniformes %}
-                            <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }}</option>
-                            {% endfor %}
-                        </select>
+                if (contador <= 9) { // Verifica se o contador é menor ou igual a 9
+                    contador++;
+    
+                    var novoItem = `
+                    <div class="item mt-3">
+                        <div class="form-group">
+                            <label for="uniforme${contador}">Uniforme:</label>
+                            <select name="uniforme${contador}" id="uniforme${contador}" class="form-control">
+                                <option value="">Selecione um uniforme</option>
+                                {% for uniforme in uniformes %}
+                                <option value="{{ uniforme.id }}">{{ uniforme.descricao }} Tamanho: {{ uniforme.tamanho }} Valor: {{ uniforme.valor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantidade${contador}">Quantidade:</label>
+                            <input type="number" name="quantidade${contador}" id="quantidade${contador}" class="form-control" value="1" min="1">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="quantidade${contador}">Quantidade:</label>
-                        <input type="number" name="quantidade${contador}" id="quantidade${contador}" class="form-control" value="1" min="1">
-                    </div>
-                </div>
-                `;
-
-                $('#itens-container').append(novoItem);
+                    `;
+    
+                    $('#itens-container').append(novoItem);
+    
+                    if (contador === 9) {
+                        $(this).prop('disabled', true); // Desativa o botão "Adicionar Item" quando o contador atingir 9
+                    }
+                }
             });
         });
     </script>

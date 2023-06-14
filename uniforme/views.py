@@ -26,7 +26,7 @@ def solicitar_uniformes(request):
                 status=status
             )
 
-            for i in range(1, 6):
+            for i in range(1, 9):
                 uniforme_id = request.POST.get(f'uniforme{i}')
                 quantidade = request.POST.get(f'quantidade{i}')
 
