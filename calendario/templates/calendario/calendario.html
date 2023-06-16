@@ -17,23 +17,22 @@
         </tr>
         </thead >
         <tbody>
-        {% regroup calendario by funcionario as funcionarios %}
-        {% for funcionario in funcionarios %}
-            <tr>
-            <td>{{ funcionario.grouper }}</td>
-            {% for dia in dias_do_mes %}
-                <td class="editable" contenteditable="true" data-id="{{ evento.funcionario_id }}" data-data="{{ dia }}">
-                {% for evento in funcionario.list %}
-                {% csrf_token %}
-                    {% if evento.data.day == dia|add:'0' %}
-                    {{ evento.posto_de_trabalho }}
-                    {% endif %}
-                {% empty %}
-                {% endfor %}
-                </td>
+            {% regroup calendario by calendario.funcionario as funcionarios %}
+            {% for funcionario in funcionarios %}
+                <tr>
+                    <td>{{ funcionario.grouper.calendario.funcionario }}</td>
+                    {% for dia in dias_do_mes %}
+                        <td class="editable" contenteditable="true" data-id="{{ funcionario.grouper.calendario.funcionario_id }}" data-data="{{ dia }}">
+                            {% for dia_calendario in funcionario.list %}
+                                {% if dia_calendario.data.day == dia|add:'0' %}
+                                    {{ dia_calendario.posto_de_trabalho }}
+                                {% endif %}
+                            {% empty %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
-            </tr>
-        {% endfor %}
         </tbody>
     </table>
 
@@ -49,7 +48,7 @@
                 var codigoEmpregado = $('input[name="codigoEmpregado"]').val();
                 if (codigoEmpregado) {
                     $.post('editar_calendario/', {
-                        'data': data,
+                        'data': data_str,
                         'funcionario_id': funcionario_id,
                         'posto_de_trabalho': posto_de_trabalho,
                         'codigoEmpregado': codigoEmpregado,
@@ -61,7 +60,7 @@
                     });
                 }
     
-                // Cria um objeto `date` a partir da string `data_str`
+                // Cria um objeto `moment` a partir da string `data_str`
                 var data = moment(data_str, "YYYY-MM-DD");
     
                 $.post('editar_calendario/', {

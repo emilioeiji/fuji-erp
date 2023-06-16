@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render
 from django.utils import timezone
 
-from .models import Calendario
+from .models import Calendario, DiaCalendario
 
 
 def calendario(request):
@@ -19,10 +19,10 @@ def calendario(request):
 
     dias_do_mes = [str(dia) for dia in range(1, ultimo_dia + 1)]
 
-    calendario = Calendario.objects.filter(
+    calendario = DiaCalendario.objects.filter(
         data__gte=inicio_do_mes,
         data__lt=fim_do_mes
-    ).order_by('data', 'funcionario__nomeRomanji')
+    ).order_by('data', 'calendario__funcionario__nomeRomanji')
 
     return render(request, 'calendario/calendario.html', {'calendario': calendario, 'dias_do_mes': dias_do_mes})
 
@@ -32,8 +32,8 @@ def editar_calendario(request):
         data = request.POST.get('data')
         funcionario_id = request.POST.get('funcionario_id')
         posto_de_trabalho = request.POST.get('posto_de_trabalho')
-        calendario = Calendario.objects.get(
-            data=data, funcionario_id=funcionario_id)
+        calendario = DiaCalendario.objects.get(
+            calendario__data=data, calendario__funcionario_id=funcionario_id)
         calendario.posto_de_trabalho = posto_de_trabalho
         calendario.save()
         return HttpResponse('Alterações salvas com sucesso.')

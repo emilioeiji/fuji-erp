@@ -1,5 +1,6 @@
 from django.contrib import admin
 
-from .models import Calendario
+from calendario import models
 
-admin.site.register(Calendario)
+admin.site.register(models.Calendario)
+admin.site.register(models.DiaCalendario)
