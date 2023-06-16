@@ -17,12 +17,12 @@
         </tr>
         </thead >
         <tbody>
-            {% regroup calendario by calendario.funcionario as funcionarios %}
+            {% regroup calendario by calendario__funcionario__id as funcionarios %}
             {% for funcionario in funcionarios %}
                 <tr>
-                    <td>{{ funcionario.grouper.calendario.funcionario }}</td>
+                    <td>{{ funcionario.grouper.funcionario.nomeRomanji }}</td>
                     {% for dia in dias_do_mes %}
-                        <td class="editable" contenteditable="true" data-id="{{ funcionario.grouper.calendario.funcionario_id }}" data-data="{{ dia }}">
+                        <td class="editable" contenteditable="true" data-id="{{ funcionario.grouper.calendario__funcionario__id }}" data-data="{{ dia }}">
                             {% for dia_calendario in funcionario.list %}
                                 {% if dia_calendario.data.day == dia|add:'0' %}
                                     {{ dia_calendario.posto_de_trabalho }}
@@ -35,7 +35,6 @@
             {% endfor %}
         </tbody>
     </table>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 

@@ -20,9 +20,9 @@ def calendario(request):
     dias_do_mes = [str(dia) for dia in range(1, ultimo_dia + 1)]
 
     calendario = DiaCalendario.objects.filter(
-        data__gte=inicio_do_mes,
-        data__lt=fim_do_mes
-    ).order_by('data', 'calendario__funcionario__nomeRomanji')
+        calendario__ano=ano,
+        calendario__mes=mes
+    ).order_by('data', 'funcionario__nomeRomanji')
 
     return render(request, 'calendario/calendario.html', {'calendario': calendario, 'dias_do_mes': dias_do_mes})
 
