@@ -17,7 +17,35 @@
     display: block;
     max-width: 50%;
     height: auto;
-  }
+}
+
+.bg-a {
+    background-color: #00b050 !important;
+}
+
+.bg-b {
+    background-color: #00b0f0 !important;
+}
+
+.bg-c {
+    background-color: #ff00ff !important;
+}
+
+.bg-ririfu {
+    background-color: #ffff00 !important;
+}
+
+.bg-treinador {
+    background-color: #00ff00 !important;
+}
+
+.bg-noite {
+    background-color: #00b0f0 !important;
+    color: white;
+}
+
+.bg-dia {
+    background-color: orange !important;
+}
 
 object-position: bottom;
-

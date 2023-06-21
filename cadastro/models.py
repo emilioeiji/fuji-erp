@@ -23,12 +23,18 @@ class Turno(models.Model):
 class GrupoFolga(models.Model):
     grupoFolga = models.CharField(max_length=1, help_text="Grupo de folga")
 
+    class Meta:
+        ordering = ['grupoFolga']
+
     def __str__(self):
         return self.grupoFolga
 
 
 class Linha(models.Model):
     linha = models.CharField(max_length=10, help_text="Linha ou sessao")
+
+    class Meta:
+        ordering = ['linha']
 
     def __str__(self):
         return self.linha
@@ -37,6 +43,9 @@ class Linha(models.Model):
 class Area(models.Model):
     linha = models.ForeignKey(Linha, on_delete=models.PROTECT)
     area = models.CharField(max_length=10, help_text="Area da linha")
+
+    class Meta:
+        ordering = ['area']
 
     def __str__(self):
         return self.area
@@ -70,12 +79,18 @@ class PrecoUnitario(models.Model):
         max_length=20, unique=True, help_text="Preco integrado funcao")
     precoUnitario = models.IntegerField()
 
+    class Meta:
+        ordering = ['nomePrecoUnitario']
+
     def __str__(self):
         return self.nomePrecoUnitario + " " + str(self.precoUnitario)
 
 
 class NomeProcesso(models.Model):
     nomeProcesso = models.CharField(max_length=20, help_text="Nome processo")
+
+    class Meta:
+        ordering = ['nomeProcesso']
 
     def __str__(self):
         return self.nomeProcesso

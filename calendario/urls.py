@@ -6,5 +6,10 @@ from . import views
 
 urlpatterns = [
     path('', views.calendario, name='calendario'),
-    path('editar_calendario/', views.editar_calendario, name='editar_calendario'),
+    path('listar_funcionarios/', views.lista_funcionario_calendario,
+         name='listar_funcionarios'),
+    path('adicionar_funcionario/', views.adicionar_funcionario_calendario,
+         name='adicionar_funcionario'),
+    path('editar_calendario/', views.editar_calendario,
+         name='editar_calendario'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

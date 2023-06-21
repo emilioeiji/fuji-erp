@@ -1,0 +1,40 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Calendário {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Lista de Funcionários</h1>
+        <a href="{% url 'adicionar_funcionario' %}" class="btn btn-primary">Adicionar Funcionário</a>
+        <table class="table table-bordered">
+            <thead>
+                <th>Código</th>
+                <th>Funcionário</th>
+                <th>和名</th>
+                <td>FJ</th>
+                <th>Grupo</th>
+                <th>Turno</th>
+                <th>Função</th>
+            </thead>
+
+            <tbody>
+                {% for funcionario in funcionarios %}
+                <tr>
+                    <td>{{ funcionario.funcionario.codigoEmpregado }}</td>
+                    <td class="{{ funcionario.estilo_grupo }}">{{ funcionario.funcionario.nomeRomanji }}</td>
+                    <td class="{{ funcionario.estilo_ririfu }}">{{ funcionario.funcionario.nomeJapones }} </td>
+                    <td class="{{ funcionario.estilo_treinador }}">{{ funcionario.funcionario.codigoCdMurata}}</td>
+                    <td>{{ funcionario.grupo }}</td>
+                    <td class="{{ funcionario.estilo_turno }}">{{ funcionario.funcionario.turno }}</td>
+                    <td>{{ funcionario.funcionario.nomeProcesso }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

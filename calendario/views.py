@@ -2,10 +2,72 @@ import calendar
 from datetime import timedelta
 
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from .models import Calendario, DiaCalendario
+from cadastro.models import GrupoFolga, Master
+
+from .models import Calendario, DiaCalendario, FuncionarioCalendario
+
+
+def lista_funcionario_calendario(request):
+    funcionarios = FuncionarioCalendario.objects.all().order_by('grupo', 'funcionario')
+    for funcionario in funcionarios:
+        if str(funcionario.grupo) == 'A':
+            funcionario.estilo_grupo = 'bg-a'
+        elif str(funcionario.grupo) == 'B':
+            funcionario.estilo_grupo = 'bg-b'
+        elif str(funcionario.grupo) == 'C':
+            funcionario.estilo_grupo = 'bg-c'
+        else:
+            funcionario.estilo_grupo = ''
+
+        if str(funcionario.funcionario.nomeProcesso) == 'ﾘﾘｰﾌ':
+            funcionario.estilo_ririfu = 'bg-ririfu'
+        else:
+            funcionario.estilo_ririfu = ''
+
+        if str(funcionario.funcionario.precoUnitario.nomePrecoUnitario) == 'ﾄﾚｰﾅｰ':
+            funcionario.estilo_treinador = 'bg-treinador'
+        else:
+            funcionario.estilo_treinador = ''
+
+        if str(funcionario.funcionario.turno) == 'Yakin':
+            funcionario.estilo_turno = 'bg-noite'
+        elif str(funcionario.funcionario.turno) == 'Hirukin':
+            funcionario.estilo_turno = 'bg-dia'
+        else:
+            funcionario.estilo_turno = ''
+
+    context = {
+        'funcionarios': funcionarios,
+    }
+    return render(request, 'calendario/listar_funcionarios.html', context)
+
+
+def adicionar_funcionario_calendario(request):
+    if request.method == 'POST':
+        funcionario_codigo = request.POST.get('funcionario')
+        grupo_id = request.POST.get('grupo')
+
+        funcionario = Master.objects.get(codigoEmpregado=funcionario_codigo)
+        grupo = GrupoFolga.objects.get(id=grupo_id)
+
+        if FuncionarioCalendario.objects.filter(funcionario=funcionario).exists():
+            return redirect('listar_funcionarios')
+
+        FuncionarioCalendario.objects.create(
+            funcionario=funcionario, grupo=grupo)
+        return redirect('listar_funcionarios')
+
+    funcionarios = Master.objects.all()
+    grupos = GrupoFolga.objects.all()
+
+    context = {
+        'funcionarios': funcionarios,
+        'grupos': grupos,
+    }
+    return render(request, 'calendario/adicionar_funcionario.html', context)
 
 
 def calendario(request):

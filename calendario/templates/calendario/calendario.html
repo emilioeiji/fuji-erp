@@ -20,7 +20,7 @@
             {% regroup calendario by calendario__funcionario__id as funcionarios %}
             {% for funcionario in funcionarios %}
                 <tr>
-                    <td>{{ funcionario.grouper.funcionario.nomeRomanji }}</td>
+                    <td>{{ funcionario.grouper.calendario__funcionario.nomeRomanji }}</td>
                     {% for dia in dias_do_mes %}
                         <td class="editable" contenteditable="true" data-id="{{ funcionario.grouper.calendario__funcionario__id }}" data-data="{{ dia }}">
                             {% for dia_calendario in funcionario.list %}
