@@ -65,3 +65,13 @@ def cadastro_master(request):
 
     else:
         return render(request, 'cadastro/cadastro_master.html', {'form': MasterForm()})
+
+
+def listar_mt(request):
+    mts = Master.objects.all().order_by('nomeRomanji')
+
+    context = {
+        'mts': mts,
+    }
+
+    return render(request, 'cadastro/listar_mt.html', context)
