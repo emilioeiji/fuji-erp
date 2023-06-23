@@ -65,7 +65,6 @@ class MasterForm(ModelForm):
             'codigoCdMurata',
             'empregadoFinalMes',
             'andarPredioTrabalho',
-            'classificacaoContrato',
             'categoriaGerente',
             'afiliacao',
             'codigoORDIA',
@@ -80,6 +79,7 @@ class MasterForm(ModelForm):
             'icCard',
             'unidadeCard',
             'numeroAs',
+            'classificacaoContrato',
             'dataConversao',
             'foto',
         ]
@@ -110,7 +110,6 @@ class MasterForm(ModelForm):
             'codigoCdMurata': 'Código Murata',
             'empregadoFinalMes': 'Empregado Final de Mês',
             'andarPredioTrabalho': 'Andaro do Prédio',
-            'classificacaoContrato': 'Classificação do Contrato',
             'categoriaGerente': 'Categoria do Gerente',
             'afiliacao': 'Afiliação',
             'codigoORDIA': 'Código ORDIA',
@@ -125,6 +124,7 @@ class MasterForm(ModelForm):
             'icCard': 'IC Card',
             'unidadeCard': 'Unidade Card',
             'numeroAs': 'Número AS',
+            'classificacaoContrato': 'Classificação Contrato',
             'dataConversao': 'Data Conversão',
             'foto': 'Foto Colaborador',
         }
@@ -152,7 +152,6 @@ class MasterForm(ModelForm):
             'codigoCdMurata': forms.TextInput(attrs={'class': 'form-control'}),
             'empregadoFinalMes': forms.TextInput(attrs={'class': 'form-control'}),
             'andarPredioTrabalho': forms.TextInput(attrs={'class': 'form-control'}),
-            'classificacaoContrato': forms.TextInput(attrs={'class': 'form-control'}),
             'categoriaGerente': forms.TextInput(attrs={'class': 'form-control'}),
             'afiliacao': forms.TextInput(attrs={'class': 'form-control'}),
             'codigoORDIA': forms.TextInput(attrs={'class': 'form-control'}),
@@ -167,6 +166,7 @@ class MasterForm(ModelForm):
             'icCard': forms.TextInput(attrs={'class': 'form-control'}),
             'unidadeCard': forms.TextInput(attrs={'class': 'form-control'}),
             'numeroAs': forms.TextInput(attrs={'class': 'form-control'}),
+            'classificacaoContrato': forms.TextInput(attrs={'class': 'form-control'}),
             'dataConversao': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
             'foto': forms.FileInput(attrs={'class': 'form-control'}),
         }

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -75,3 +76,28 @@ def listar_mt(request):
     }
 
     return render(request, 'cadastro/listar_mt.html', context)
+
+
+def editar_master(request, codigo_empregado):
+    master = Master.objects.get(codigoEmpregado=codigo_empregado)
+    form = MasterForm(instance=master)
+
+    if request.method == 'POST':
+        form = MasterForm(request.POST, instance=master)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Informações atualizadas com sucesso.')
+            return redirect('listar_mt')
+
+    return render(request, 'cadastro/editar_master.html', {'form': form, 'master': master})
+
+
+def excluir_master(request, codigo_empregado):
+    master = Master.objects.get(codigoEmpregado=codigo_empregado)
+
+    if request.method == 'POST':
+        master.delete()
+        messages.success(request, 'Cadastro excluído com sucesso.')
+        return redirect('listar_mt')
+
+    return render(request, 'cadastro/excluir_master.html', {'master': master})

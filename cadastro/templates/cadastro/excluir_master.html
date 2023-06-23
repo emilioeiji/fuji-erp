@@ -1,0 +1,15 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Editar Master{% endblock %}
+
+{% block content %}
+  <h2>Excluir Cadastro</h2>
+  <p>Tem certeza de que deseja excluir o cadastro: {{ master.nomeRomanji }}?</p>
+  <form action="{% url 'excluir_master' codigo_empregado=master.codigoEmpregado %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Confirmar Exclusão" class="btn btn-danger">
+    <a href="{% url 'listar_mt' %}" class="btn btn-primary">Voltar</a>
+  </form>
+{% endblock %}

@@ -19,6 +19,7 @@
                 <th>Grupo</th>
                 <th>Turno</th>
                 <th>Função</th>
+                <th>Editar</th>
             </thead>
 
             <tbody>
@@ -31,6 +32,10 @@
                     <td>{{ funcionario.grupo }}</td>
                     <td class="{{ funcionario.estilo_turno }}">{{ mt.turno }}</td>
                     <td>{{ mt.nomeProcesso }}</td>
+                    <td>
+                        <a href="{% url 'editar_master' codigo_empregado=mt.codigoEmpregado %}" class="btn btn-primary">Editar</a>
+                        <a href="{% url 'excluir_master' codigo_empregado=mt.codigoEmpregado %}" class="btn btn-danger">Excluir</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
