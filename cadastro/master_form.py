@@ -3,7 +3,8 @@ from django.forms.models import ModelForm
 
 from cadastro.models import (Area, CdLocalIntegrado, ClassificacaoPreco,
                              Escritorio, Genero, Linha, LocalTrabalho, Master,
-                             NomeProcesso, PrecoUnitario, Sexo, Turno)
+                             MasterApartamentos, NomeProcesso, PrecoUnitario,
+                             Sexo, Turno)
 
 
 class MasterForm(ModelForm):
@@ -170,3 +171,12 @@ class MasterForm(ModelForm):
             'dataConversao': forms.DateInput(format=('%Y-%m-%d'), attrs={'class': 'form-control', 'type': 'date'}),
             'foto': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+
+class MasterApForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['codigoEmpregado'].required = True
+        self.fields['nomeApartamento'].required = True
+        self.fields['numeroApartamento'].required = True
+    pass
