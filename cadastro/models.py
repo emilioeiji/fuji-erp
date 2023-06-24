@@ -157,6 +157,22 @@ class PostoTrabalho(models.Model):
         return str(self.posto)
 
 
+class PontoOnibus(models.Model):
+    numeroOnibus = models.IntegerField()
+    pontoOnibus = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['numeroOnibus']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['numeroOnibus', 'pontoOnibus'], name='unique_ponto_onibus_combination'
+            )
+        ]
+
+    def __str__(self):
+        return f"{ self.numeroOnibus } - { self.pontoOnibus }"
+
+
 class Master(models.Model):
     codigoEmpregado = models.IntegerField(primary_key=True)
     nomeJapones = models.CharField(max_length=30, help_text="Nome em Japones")
@@ -249,7 +265,6 @@ class MasterApartamentos(models.Model):
     cep = models.IntegerField()
     endereco = models.CharField(max_length=30)
     pontoOnibus = models.CharField(max_length=10, blank=True, null=True)
-    numeroOnibus = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return str(self.codigoEmpregado)
