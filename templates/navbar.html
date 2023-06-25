@@ -9,68 +9,70 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <li class="nav-item dropdown my-auto">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarCadastro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Cadastro
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarCadastro">
-                        <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT</a></li>
-                        <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT Apartamentos</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Dados</a></li>
-                      </ul>
-                </li>
-
-                <li class="nav-item dropdown my-auto">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarRelatorios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Relatórios
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarRelatorios">
-                        <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT</a></li>
-                        <li><a class="dropdown-item" href="#">MT Apartamentos</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Dados</a></li>
-                      </ul>
-                </li>
-
-                <li class="nav-item dropdown my-auto">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarCalendario" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Calendário
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarCalendario">
-                        <li><a class="dropdown-item" href="#">Calendário</a></li>
-                        <li><a class="dropdown-item" href="{% url 'listar_funcionarios' %}">Funcionário Calendário</a></li>
-                        <li><a class="dropdown-item" href="#">Haidai</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Dados</a></li>
-                      </ul>
-                </li>
-
-                <li class="nav-item dropdown my-auto">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarSolicitacoes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Solicitações
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarSolicitacoes">
-                        <li><a class="dropdown-item" href="{% url 'listar_solicitacoes' %}">Uniformes</a></li>
-                        <li><a class="dropdown-item" href="#">Médico</a></li>
-                        <li><a class="dropdown-item" href="#">Yukyu</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Dados</a></li>
-                      </ul>
-                </li>
-
                 {% if user.is_authenticated %}
+
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarCadastro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Cadastro
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarCadastro">
+                            <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT Apartamentos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Dados</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarRelatorios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Relatórios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarRelatorios">
+                            <li><a class="dropdown-item" href="{% url 'listar_mt' %}">MT</a></li>
+                            <li><a class="dropdown-item" href="#">MT Apartamentos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Dados</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarCalendario" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Calendário
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarCalendario">
+                            <li><a class="dropdown-item" href="#">Calendário</a></li>
+                            <li><a class="dropdown-item" href="{% url 'listar_funcionarios' %}">Funcionário Calendário</a></li>
+                            <li><a class="dropdown-item" href="#">Haidai</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Dados</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarSolicitacoes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Solicitações
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarSolicitacoes">
+                            <li><a class="dropdown-item" href="{% url 'listar_solicitacoes' %}">Uniformes</a></li>
+                            <li><a class="dropdown-item" href="#">Médico</a></li>
+                            <li><a class="dropdown-item" href="#">Yukyu</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Dados</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item my-auto">
                         <a class="nav-link" href="{% url 'login' %}">
                             {% if user.perfil.foto_perfil %}
                                     <img src=" img/{{ user.perfil.foto_perfil }}"
-                                         class="rounded-circle" alt="{{ user.username }}"
-                                         style="height:30px; width:30px;">
+                                        class="rounded-circle" alt="{{ user.username }}"
+                                        style="height:30px; width:30px;">
                             {% else %}
                                 <span>{{ user.username }}</span>
                             {% endif %}
                         </a>
                     </li>
+
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
