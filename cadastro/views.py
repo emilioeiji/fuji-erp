@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .master_form import MasterForm
-from .models import Master
+from .master_form import MasterApForm, MasterForm
+from .models import Master, MasterApartamentos
 
 
 def cadastro_master(request):
@@ -101,3 +101,88 @@ def excluir_master(request, codigo_empregado):
         return redirect('listar_mt')
 
     return render(request, 'cadastro/excluir_master.html', {'master': master})
+
+
+def listar_mt_apto(request):
+    mt_aptos = MasterApartamentos.objects.all().order_by('codigoEmpregado')
+
+    context = {
+        'mt_aptos': mt_aptos,
+    }
+
+    return render(request, 'cadastro/listar_mt_apto.html', context)
+
+
+def cadastro_master_apto(request):
+    if request.method == 'POST':
+
+        mt = MasterApForm(request.POST, request.FILES)
+
+        if mt.is_valid():
+
+            master = MasterApartamentos(
+                codigoEmpregado=mt.cleaned_data['codigoEmpregado'],
+                propriedadesCD=mt.cleaned_data['propriedadesCD'],
+                nomeApartamento=mt.cleaned_data['nomeApartamento'],
+                numeroApartamento=mt.cleaned_data['numeroApartamento'],
+                r=mt.cleaned_data['r'],
+                p=mt.cleaned_data['p'],
+                custoServicoPublico=mt.cleaned_data['custoServicoPublico'],
+                dgs=mt.cleaned_data['dgs'],
+                valorTransferenciaMEnsal=mt.cleaned_data['valorTransferenciaMEnsal'],
+                taxaAdministracao=mt.cleaned_data['taxaAdministracao'],
+                alugelEquipamento=mt.cleaned_data['alugelEquipamento'],
+                valorEstacionamento=mt.cleaned_data['valorEstacionamento'],
+                lga=mt.cleaned_data['lga'],
+                valorAluguel=mt.cleaned_data['valorAluguel'],
+                totalArrecadado=mt.cleaned_data['totalArrecadado'],
+                telefone=mt.cleaned_data['telefone'],
+                cep=mt.cleaned_data['cep'],
+                endereco=mt.cleaned_data['endereco'],
+                pontoOnibus=mt.cleaned_data['pontoOnibus'],
+            )
+
+            master.save()
+            return redirect('cadastro_master_apto')
+        else:
+            errors = mt.errors.as_data()
+            error_messages = []
+            for field, error_list in errors.items():
+                for error in error_list:
+                    error_messages.append(f"{field}: {error}")
+            error_message = "<br>".join(error_messages)
+            return HttpResponse(f"Erro: {error_message}")
+
+    else:
+        return render(request, 'cadastro/cadastro_master_apto.html', {'form': MasterApForm()})
+
+
+def editar_master_apto(request, numero_apto):
+    master = MasterApartamentos.objects.get(numero=numero_apto)
+    form = MasterApForm(instance=master)
+
+    if request.method == 'POST':
+        form = MasterApForm(request.POST, instance=master)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Informações atualizadas com sucesso.')
+            return redirect('listar_mt_apto')
+
+    return render(request, 'cadastro/editar_master_apto.html', {'form': form, 'master': master})
+
+
+def excluir_master_apto(request, numero_apto):
+    master = MasterApartamentos.objects.get(numero=numero_apto)
+
+    if request.method == 'POST':
+        master.delete()
+        messages.success(request, 'Cadastro excluído com sucesso.')
+        return redirect('listar_mt_apto')
+
+    return render(request, 'cadastro/excluir_master_apto.html', {'master': master})
+
+
+def detalhar_mt_apto(request, numero_apto):
+    mt_apto = get_object_or_404(MasterApartamentos, numero=numero_apto)
+    context = {'mt_apto': mt_apto}
+    return render(request, 'cadastro/detalhar_mt_apto.html', context)

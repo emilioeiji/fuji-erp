@@ -1,0 +1,122 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Cadastro Master {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="main">
+            <div class="py-4 text-center">
+                <h2>Detalhes Master Apto</h2>
+            </div>
+
+            <div class="row g-5 justify-content-center">
+                <div class="col-xl-6 col-md-6">
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>ID:</h5></div>
+                        <div class="col">{{ mt_apto.numero }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Código CD:</h5></div>
+                        <div class="col">{{ mt_apto.propriedadesCD }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Funcionário:</h5></div>
+                        <div class="col">{{ mt_apto.codigoEmpregado }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Nome do Apartamento:</h5></div>
+                        <div class="col">{{ mt_apto.nomeApartamento }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Número:</h5></div>
+                        <div class="col">{{ mt_apto.numeroApartamento }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>R:</h5></div>
+                        <div class="col">{{ mt_apto.r }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>P:</h5></div>
+                        <div class="col">{{ mt_apto.p }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Serviço Público:</h5></div>
+                        <div class="col">{{ mt_apto.custoServicoPublico }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>DGS:</h5></div>
+                        <div class="col">{{ mt_apto.dgs }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Valor Transferencia Mensal:</h5></div>
+                        <div class="col">{{ mt_apto.valorTransferenciaMEnsal }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Taxa de Administração:</h5></div>
+                        <div class="col">{{ mt_apto.taxaAdministracao }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Aluguel de Equipamento:</h5></div>
+                        <div class="col">{{ mt_apto.alugelEquipamento }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Valor Estacionamento:</h5></div>
+                        <div class="col">{{ mt_apto.valorEstacionamento }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>LGA:</h5></div>
+                        <div class="col">{{ mt_apto.lga }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Valor do Aluguél:</h5></div>
+                        <div class="col">{{ mt_apto.valorAluguel }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Total Arrecadado:</h5></div>
+                        <div class="col">{{ mt_apto.totalArrecadado }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Telefone:</h5></div>
+                        <div class="col">{{ mt_apto.telefone }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>CEP:</h5></div>
+                        <div class="col">{{ mt_apto.cep }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Endereço:</h5></div>
+                        <div class="col">{{ mt_apto.endereco }}</div>
+                    </div>
+
+                    <div class="row position-relative">
+                        <div class="col text-end"><h5>Ponto de Ônibus:</h5></div>
+                        <div class="col">{{ mt_apto.pontoOnibus }}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

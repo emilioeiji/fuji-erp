@@ -264,7 +264,7 @@ class MasterApartamentos(models.Model):
     telefone = models.IntegerField()
     cep = models.IntegerField()
     endereco = models.CharField(max_length=30)
-    pontoOnibus = models.CharField(max_length=10, blank=True, null=True)
+    pontoOnibus = models.ForeignKey(PontoOnibus, on_delete=models.PROTECT)
 
     def __str__(self):
         return str(self.codigoEmpregado)

@@ -3,8 +3,8 @@ from django.forms.models import ModelForm
 
 from cadastro.models import (Area, CdLocalIntegrado, ClassificacaoPreco,
                              Escritorio, Genero, Linha, LocalTrabalho, Master,
-                             MasterApartamentos, NomeProcesso, PrecoUnitario,
-                             Sexo, Turno)
+                             MasterApartamentos, NomeProcesso, PontoOnibus,
+                             PrecoUnitario, Sexo, Turno)
 
 
 class MasterForm(ModelForm):
@@ -179,4 +179,76 @@ class MasterApForm(ModelForm):
         self.fields['codigoEmpregado'].required = True
         self.fields['nomeApartamento'].required = True
         self.fields['numeroApartamento'].required = True
-    pass
+
+    codigoEmpregado = forms.ModelChoiceField(
+        queryset=Master.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    pontoOnibus = forms.ModelChoiceField(
+        queryset=PontoOnibus.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+
+    class Meta:
+        model = MasterApartamentos
+        fields = [
+            'codigoEmpregado',
+            'propriedadesCD',
+            'nomeApartamento',
+            'numeroApartamento',
+            'r',
+            'p',
+            'custoServicoPublico',
+            'dgs',
+            'valorTransferenciaMEnsal',
+            'taxaAdministracao',
+            'alugelEquipamento',
+            'valorEstacionamento',
+            'lga',
+            'valorAluguel',
+            'totalArrecadado',
+            'telefone',
+            'cep',
+            'endereco',
+            'pontoOnibus',
+        ]
+
+        labels = {
+            'codigoEmpregado': 'Funcionário',
+            'propriedadesCD': 'Código CD',
+            'nomeApartamento': 'Nome do Apartamento',
+            'numeroApartamento': 'Número do Apartamento',
+            'r': 'R',
+            'p': 'P',
+            'custoServicoPublico': 'Valor Serv. Público',
+            'dgs': 'DGS',
+            'valorTransferenciaMEnsal': 'Valor Transf Mensal',
+            'taxaAdministracao': 'Taxa de Administração',
+            'alugelEquipamento': 'Aluguél Equipamento',
+            'valorEstacionamento': 'Valor Estacionamento',
+            'lga': 'LGA',
+            'valorAluguel': 'Valor Aluguél',
+            'totalArrecadado': 'Total Arrecadado',
+            'telefone': 'Telefone',
+            'cep': 'CEP',
+            'endereco': 'Endereço',
+            'pontoOnibus': 'Ponto de Ônibus',
+        }
+
+        widgets = {
+            'codigoEmpregado': forms.TextInput(attrs={'class': 'form-control'}),
+            'propriedadesCD': forms.TextInput(attrs={'class': 'form-control'}),
+            'nomeApartamento': forms.TextInput(attrs={'class': 'form-control'}),
+            'numeroApartamento': forms.TextInput(attrs={'class': 'form-control'}),
+            'r': forms.TextInput(attrs={'class': 'form-control'}),
+            'p': forms.TextInput(attrs={'class': 'form-control'}),
+            'custoServicoPublico': forms.TextInput(attrs={'class': 'form-control'}),
+            'dgs': forms.TextInput(attrs={'class': 'form-control'}),
+            'valorTransferenciaMEnsal': forms.TextInput(attrs={'class': 'form-control'}),
+            'taxaAdministracao': forms.TextInput(attrs={'class': 'form-control'}),
+            'alugelEquipamento': forms.TextInput(attrs={'class': 'form-control'}),
+            'valorEstacionamento': forms.TextInput(attrs={'class': 'form-control'}),
+            'lga': forms.TextInput(attrs={'class': 'form-control'}),
+            'valorAluguel': forms.TextInput(attrs={'class': 'form-control'}),
+            'totalArrecadado': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+            'cep': forms.TextInput(attrs={'class': 'form-control'}),
+            'endereco': forms.TextInput(attrs={'class': 'form-control'}),
+            'pontoOnibus': forms.TextInput(attrs={'class': 'form-control'}),
+        }
