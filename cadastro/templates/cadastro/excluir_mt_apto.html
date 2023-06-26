@@ -6,10 +6,10 @@
 
 {% block content %}
   <h2>Excluir Cadastro</h2>
-  <p>Tem certeza de que deseja excluir o cadastro: {{ master.nomeRomanji }}?</p>
-  <form action="{% url 'excluir_master' codigo_empregado=master.codigoEmpregado %}" method="POST">
+  <p>Tem certeza de que deseja excluir o cadastro: {{ mt_apto.codigoEmpregado }}?</p>
+  <form action="{% url 'excluir_master_apto' numero_apto=mt_apto.numero %}" method="POST">
     {% csrf_token %}
     <input type="submit" value="Confirmar Exclusão" class="btn btn-danger">
-    <a href="{% url 'listar_mt' %}" class="btn btn-secondary">Voltar</a>
+    <a href="{% url 'listar_mt_apto' %}" class="btn btn-secondary">Voltar</a>
   </form>
 {% endblock %}

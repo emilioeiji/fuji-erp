@@ -115,6 +115,14 @@
                         <div class="col">{{ mt_apto.pontoOnibus }}</div>
                     </div>
 
+                    <div class="row justify-content-center">
+                        <div class="col text-center mt-2">
+                            <a href="{% url 'editar_master_apto' numero_apto=mt_apto.numero %}" class="btn btn-primary">Editar</a>
+                            <a href="{% url 'excluir_master_apto' numero_apto=mt_apto.numero %}" class="btn btn-danger">Excluir</a>
+                            <a href="{% url 'listar_mt_apto' %}" class="btn btn-secondary">Voltar</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

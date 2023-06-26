@@ -19,23 +19,21 @@
                 <th>CEP</th>
                 <th>Endereço</th>
                 <th>Ponto Ônibus</th>
-                <th>Editar</th>
             </thead>
 
             <tbody>
                 {% for mt_apto in mt_aptos %}
                 <tr>
-                    <td>{{ mt_apto.codigoEmpregado }}</td>
+                    <td>
+                        <a href="{% url 'detalhar_mt_apto' numero_apto=mt_apto.numero %}" class="text-decoration-none">
+                            {{ mt_apto.codigoEmpregado }}</td>
+                        </a>
                     <td>{{ mt_apto.nomeApartamento }} </td>
                     <td>{{ mt_apto.numeroApartamento}}</td>
                     <td>{{ mt_apto.telefone }}</td>
                     <td>{{ mt_apto.cep }}</td>
                     <td>{{ mt_apto.endereco }}</td>
                     <td>{{ mt_apto.pontoOnibus }}</td>
-                    <td>
-                        <a href="{% url 'editar_master_apto' numero_apto=mt_apto.numero %}" class="btn btn-primary">Editar</a>
-                        <a href="{% url 'excluir_master_apto' numero_apto=mt_apto.numero %}" class="btn btn-danger">Excluir</a>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

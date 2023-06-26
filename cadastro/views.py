@@ -158,28 +158,28 @@ def cadastro_master_apto(request):
 
 
 def editar_master_apto(request, numero_apto):
-    master = MasterApartamentos.objects.get(numero=numero_apto)
-    form = MasterApForm(instance=master)
+    mt_apto = MasterApartamentos.objects.get(numero=numero_apto)
+    form = MasterApForm(instance=mt_apto)
 
     if request.method == 'POST':
-        form = MasterApForm(request.POST, instance=master)
+        form = MasterApForm(request.POST, instance=mt_apto)
         if form.is_valid():
             form.save()
             messages.success(request, 'Informações atualizadas com sucesso.')
             return redirect('listar_mt_apto')
 
-    return render(request, 'cadastro/editar_master_apto.html', {'form': form, 'master': master})
+    return render(request, 'cadastro/editar_mt_apto.html', {'form': form, 'mt_apto': mt_apto})
 
 
 def excluir_master_apto(request, numero_apto):
-    master = MasterApartamentos.objects.get(numero=numero_apto)
+    mt_apto = MasterApartamentos.objects.get(numero=numero_apto)
 
     if request.method == 'POST':
-        master.delete()
+        mt_apto.delete()
         messages.success(request, 'Cadastro excluído com sucesso.')
         return redirect('listar_mt_apto')
 
-    return render(request, 'cadastro/excluir_master_apto.html', {'master': master})
+    return render(request, 'cadastro/excluir_mt_apto.html', {'mt_apto': mt_apto})
 
 
 def detalhar_mt_apto(request, numero_apto):
