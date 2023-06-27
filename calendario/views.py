@@ -70,6 +70,34 @@ def adicionar_funcionario_calendario(request):
     return render(request, 'calendario/adicionar_funcionario.html', context)
 
 
+def editar_funcionario_calendario(request, funcionario_calendario_id):
+    funcionario_calendario = FuncionarioCalendario.objects.get(
+        id=funcionario_calendario_id)
+
+    if request.method == 'POST':
+        funcionario_codigo = request.POST.get('funcionario')
+        grupo_id = request.POST.get('grupo')
+
+        funcionario = Master.objects.get(codigoEmpregado=funcionario_codigo)
+        grupo = GrupoFolga.objects.get(id=grupo_id)
+
+        funcionario_calendario.funcionario = funcionario
+        funcionario_calendario.grupo = grupo
+        funcionario_calendario.save()
+
+        return redirect('listar_funcionarios')
+
+    funcionarios = Master.objects.all()
+    grupos = GrupoFolga.objects.all()
+
+    context = {
+        'funcionario_calendario': funcionario_calendario,
+        'funcionarios': funcionarios,
+        'grupos': grupos,
+    }
+    return render(request, 'calendario/editar_funcionario.html', context)
+
+
 def calendario(request):
     hoje = timezone.now().date()
     inicio_do_mes = hoje.replace(day=1)
