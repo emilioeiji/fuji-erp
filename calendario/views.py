@@ -2,6 +2,7 @@ import calendar
 from datetime import timedelta
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -11,6 +12,7 @@ from cadastro.models import GrupoFolga, Master
 from .models import Calendario, DiaCalendario, FuncionarioCalendario
 
 
+@login_required()
 def lista_funcionario_calendario(request):
     funcionarios = FuncionarioCalendario.objects.all().order_by('grupo', 'funcionario')
     for funcionario in funcionarios:
@@ -46,6 +48,7 @@ def lista_funcionario_calendario(request):
     return render(request, 'calendario/listar_funcionarios.html', context)
 
 
+@login_required()
 def adicionar_funcionario_calendario(request):
     if request.method == 'POST':
         funcionario_codigo = request.POST.get('funcionario')
@@ -71,6 +74,7 @@ def adicionar_funcionario_calendario(request):
     return render(request, 'calendario/adicionar_funcionario.html', context)
 
 
+@login_required()
 def editar_funcionario_calendario(request, funcionario_calendario_id):
     funcionario_calendario = FuncionarioCalendario.objects.get(
         id=funcionario_calendario_id)
@@ -99,6 +103,7 @@ def editar_funcionario_calendario(request, funcionario_calendario_id):
     return render(request, 'calendario/editar_funcionario.html', context)
 
 
+@login_required()
 def excluir_funcionario_calendario(request, funcionario_calendario_id):
     funcionario_calendario = FuncionarioCalendario.objects.get(
         id=funcionario_calendario_id)
@@ -111,6 +116,7 @@ def excluir_funcionario_calendario(request, funcionario_calendario_id):
     return render(request, 'calendario/excluir_funcionario.html', {'funcionario_calendario': funcionario_calendario})
 
 
+@login_required()
 def calendario(request):
     hoje = timezone.now().date()
     inicio_do_mes = hoje.replace(day=1)
@@ -130,6 +136,7 @@ def calendario(request):
     return render(request, 'calendario/calendario.html', {'calendario': calendario, 'dias_do_mes': dias_do_mes})
 
 
+@login_required()
 def editar_calendario(request):
     if request.method == 'POST':
         data = request.POST.get('data')

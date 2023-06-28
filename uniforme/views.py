@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from cadastro.models import Master
@@ -6,6 +7,7 @@ from .models import (ItemSolicitacao, Solicitacao, StatusSolicitacao, Tamanho,
                      Uniforme)
 
 
+@login_required()
 def solicitar_uniformes(request):
     uniformes = Uniforme.objects.all()
     status_solicitacao = StatusSolicitacao.objects.all()
@@ -50,18 +52,21 @@ def solicitar_uniformes(request):
     return render(request, 'uniforme/solicitar_uniformes.html', context)
 
 
+@login_required()
 def listar_solicitacoes(request):
     solicitacoes = Solicitacao.objects.all().order_by('-id_solicitacao')
     context = {'solicitacoes': solicitacoes}
     return render(request, 'uniforme/listar_solicitacoes.html', context)
 
 
+@login_required()
 def detalhar_solicitacao(request, id_solicitacao):
     solicitacao = get_object_or_404(Solicitacao, id_solicitacao=id_solicitacao)
     context = {'solicitacao': solicitacao}
     return render(request, 'uniforme/detalhar_solicitacao.html', context)
 
 
+@login_required()
 def imprimir_solicitacao(request, id_solicitacao):
     solicitacao = get_object_or_404(Solicitacao, id_solicitacao=id_solicitacao)
     context = {'solicitacao': solicitacao}

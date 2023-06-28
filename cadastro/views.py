@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -6,6 +7,7 @@ from .master_form import MasterApForm, MasterForm
 from .models import Master, MasterApartamentos
 
 
+@login_required()
 def cadastro_master(request):
     if request.method == 'POST':
 
@@ -68,6 +70,7 @@ def cadastro_master(request):
         return render(request, 'cadastro/cadastro_master.html', {'form': MasterForm()})
 
 
+@login_required()
 def listar_mt(request):
     mts = Master.objects.all().order_by('nomeRomanji')
 
@@ -78,6 +81,7 @@ def listar_mt(request):
     return render(request, 'cadastro/listar_mt.html', context)
 
 
+@login_required()
 def editar_master(request, codigo_empregado):
     master = Master.objects.get(codigoEmpregado=codigo_empregado)
     form = MasterForm(instance=master)
@@ -92,6 +96,7 @@ def editar_master(request, codigo_empregado):
     return render(request, 'cadastro/editar_master.html', {'form': form, 'master': master})
 
 
+@login_required()
 def excluir_master(request, codigo_empregado):
     master = Master.objects.get(codigoEmpregado=codigo_empregado)
 
@@ -103,6 +108,7 @@ def excluir_master(request, codigo_empregado):
     return render(request, 'cadastro/excluir_master.html', {'master': master})
 
 
+@login_required()
 def listar_mt_apto(request):
     mt_aptos = MasterApartamentos.objects.all().order_by('codigoEmpregado')
 
@@ -113,6 +119,7 @@ def listar_mt_apto(request):
     return render(request, 'cadastro/listar_mt_apto.html', context)
 
 
+@login_required()
 def cadastro_master_apto(request):
     if request.method == 'POST':
 
@@ -157,6 +164,7 @@ def cadastro_master_apto(request):
         return render(request, 'cadastro/cadastro_master_apto.html', {'form': MasterApForm()})
 
 
+@login_required()
 def editar_master_apto(request, numero_apto):
     mt_apto = MasterApartamentos.objects.get(numero=numero_apto)
     form = MasterApForm(instance=mt_apto)
@@ -171,6 +179,7 @@ def editar_master_apto(request, numero_apto):
     return render(request, 'cadastro/editar_mt_apto.html', {'form': form, 'mt_apto': mt_apto})
 
 
+@login_required()
 def excluir_master_apto(request, numero_apto):
     mt_apto = MasterApartamentos.objects.get(numero=numero_apto)
 
@@ -182,6 +191,7 @@ def excluir_master_apto(request, numero_apto):
     return render(request, 'cadastro/excluir_mt_apto.html', {'mt_apto': mt_apto})
 
 
+@login_required()
 def detalhar_mt_apto(request, numero_apto):
     mt_apto = get_object_or_404(MasterApartamentos, numero=numero_apto)
     context = {'mt_apto': mt_apto}
