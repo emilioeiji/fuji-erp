@@ -7,7 +7,8 @@ from cadastro.models import GrupoFolga, Master, PostoTrabalho
 
 
 class FuncionarioCalendario(models.Model):
-    funcionario = models.ForeignKey(Master, on_delete=models.CASCADE)
+    funcionario = models.OneToOneField(
+        Master, on_delete=models.CASCADE)
     grupo = models.ForeignKey(GrupoFolga, on_delete=models.CASCADE)
 
     class Meta:

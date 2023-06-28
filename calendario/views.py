@@ -1,6 +1,7 @@
 import calendar
 from datetime import timedelta
 
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -96,6 +97,18 @@ def editar_funcionario_calendario(request, funcionario_calendario_id):
         'grupos': grupos,
     }
     return render(request, 'calendario/editar_funcionario.html', context)
+
+
+def excluir_funcionario_calendario(request, funcionario_calendario_id):
+    funcionario_calendario = FuncionarioCalendario.objects.get(
+        id=funcionario_calendario_id)
+
+    if request.method == 'POST':
+        funcionario_calendario.delete()
+        messages.success(request, 'Cadastro excluído com sucesso.')
+        return redirect('listar_funcionarios')
+
+    return render(request, 'calendario/excluir_funcionario.html', {'funcionario_calendario': funcionario_calendario})
 
 
 def calendario(request):

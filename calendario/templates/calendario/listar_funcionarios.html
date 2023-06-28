@@ -24,7 +24,10 @@
             <tbody>
                 {% for funcionario in funcionarios %}
                 <tr>
-                    <td>{{ funcionario.funcionario.codigoEmpregado }}</td>
+                    <td>
+                        <a class="text-decoration-none" href="{% url 'editar_funcionario_calendario' funcionario_calendario_id=funcionario.id %}">
+                            {{ funcionario.funcionario.codigoEmpregado }}</td>
+                        </a>
                     <td class="{{ funcionario.estilo_grupo }}">{{ funcionario.funcionario.nomeRomanji }}</td>
                     <td class="{{ funcionario.estilo_ririfu }}">{{ funcionario.funcionario.nomeJapones }} </td>
                     <td class="{{ funcionario.estilo_treinador }}">{{ funcionario.funcionario.codigoCdMurata}}</td>

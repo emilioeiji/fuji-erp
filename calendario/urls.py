@@ -10,8 +10,10 @@ urlpatterns = [
          name='listar_funcionarios'),
     path('adicionar_funcionario/', views.adicionar_funcionario_calendario,
          name='adicionar_funcionario'),
-    path('editar_funcionarios/<int:funcionario_calendario_id>/',
+    path('editar_funcionario/<int:funcionario_calendario_id>/',
          views.editar_funcionario_calendario, name='editar_funcionario_calendario'),
+    path('excluir_funcionario/<int:funcionario_calendario_id>/',
+         views.excluir_funcionario_calendario, name='excluir_funcionario_calendario'),
     path('editar_calendario/', views.editar_calendario,
          name='editar_calendario'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
