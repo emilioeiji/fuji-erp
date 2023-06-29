@@ -199,7 +199,7 @@ def detalhar_mt_apto(request, numero_apto):
 
 
 @login_required()
-def detalhar_mt(request, codigo_empregado):
+def detalhar_master(request, codigo_empregado):
     master = get_object_or_404(Master, codigoEmpregado=codigo_empregado)
     context = {'master': master}
     return render(request, 'cadastro/detalhar_master.html', context)

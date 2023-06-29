@@ -19,4 +19,6 @@ urlpatterns = [
          views.excluir_master_apto, name='excluir_master_apto'),
     path('detalhar-mt-apto/<int:numero_apto>/', views.detalhar_mt_apto,
          name='detalhar_mt_apto'),
+    path('detalhar-master/<int:codigo_empregado>/', views.detalhar_master,
+         name='detalhar_master'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
