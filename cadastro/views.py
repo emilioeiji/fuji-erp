@@ -196,3 +196,10 @@ def detalhar_mt_apto(request, numero_apto):
     mt_apto = get_object_or_404(MasterApartamentos, numero=numero_apto)
     context = {'mt_apto': mt_apto}
     return render(request, 'cadastro/detalhar_mt_apto.html', context)
+
+
+@login_required()
+def detalhar_mt(request, codigo_empregado):
+    master = get_object_or_404(Master, codigoEmpregado=codigo_empregado)
+    context = {'master': master}
+    return render(request, 'cadastro/detalhar_master.html', context)
