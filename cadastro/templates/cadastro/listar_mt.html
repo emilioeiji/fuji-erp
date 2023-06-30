@@ -25,7 +25,11 @@
             <tbody>
                 {% for mt in mts %}
                 <tr>
-                    <td>{{ mt.codigoEmpregado }}</td>
+                    <td>
+                        <a href="{% url 'detalhar_master' codigo_empregado=mt.codigoEmpregado %}" class="text-decoration-none">
+                            {{ mt.codigoEmpregado }}
+                        </a>
+                    </td>
                     <td class="{{ funcionario.estilo_grupo }}">{{ mt.nomeRomanji }}</td>
                     <td class="{{ funcionario.estilo_ririfu }}">{{ mt.nomeJapones }} </td>
                     <td class="{{ funcionario.estilo_treinador }}">{{ mt.codigoCdMurata}}</td>
