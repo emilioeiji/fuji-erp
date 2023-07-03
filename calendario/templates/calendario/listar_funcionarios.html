@@ -23,6 +23,8 @@
 
             <tbody>
                 {% for funcionario in funcionarios %}
+
+                {% if funcionario.funcionario.nomeProcesso == 'ﾘﾘｰﾌ' %}
                 <tr>
                     <td>
                         <a class="text-decoration-none" href="{% url 'editar_funcionario_calendario' funcionario_calendario_id=funcionario.id %}">
@@ -35,6 +37,7 @@
                     <td class="{{ funcionario.estilo_turno }}">{{ funcionario.funcionario.turno }}</td>
                     <td>{{ funcionario.funcionario.nomeProcesso }}</td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
