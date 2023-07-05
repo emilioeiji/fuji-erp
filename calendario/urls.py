@@ -6,6 +6,9 @@ from . import views
 
 urlpatterns = [
     path('', views.calendario, name='calendario'),
+    path('calendario/<int:pk>/', views.CalendarioDetailView.as_view(),
+         name='calendario_detail'),
+    path('adicionar_mes/', views.adicionar_mes, name='adicionar_mes'),
     path('listar_funcionarios/', views.lista_funcionario_calendario,
          name='listar_funcionarios'),
     path('adicionar_funcionario/', views.adicionar_funcionario_calendario,

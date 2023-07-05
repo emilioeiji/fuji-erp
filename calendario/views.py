@@ -5,7 +5,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import DetailView
 
 from cadastro.models import GrupoFolga, Master
 
@@ -134,6 +136,37 @@ def calendario(request):
     ).order_by('data', 'funcionario__nomeRomanji')
 
     return render(request, 'calendario/calendario.html', {'calendario': calendario, 'dias_do_mes': dias_do_mes})
+
+
+class CalendarioDetailView(DetailView):
+    model = Calendario
+    template_name = 'calendario/calendario_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        calendario = self.object
+        matriz_alocacao = calendario.obter_matriz_alocacao()
+        context['matriz_alocacao'] = matriz_alocacao
+        return context
+
+
+@login_required()
+def adicionar_mes(request):
+    if request.method == 'POST':
+        # Obtenha o mês e o ano do formulário
+        mes = int(request.POST.get('mes'))
+        ano = int(request.POST.get('ano'))
+
+        # Crie uma instância do calendário
+        calendario = Calendario.objects.criar_calendario(mes, ano)
+
+        url = reverse('calendario_detail', args=[calendario.id])
+
+        # Redirecione para a página de detalhes do calendário recém-criado
+        return redirect(url)
+
+    # Renderize o template para exibir o formulário de adição de mês
+    return render(request, 'calendario/adicionar_mes.html')
 
 
 @login_required()

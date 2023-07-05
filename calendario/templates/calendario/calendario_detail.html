@@ -1,0 +1,31 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Calendário {% endblock %}
+
+{% block content %}
+
+<table>
+    <thead>
+      <tr>
+        <th></th>  <!-- Célula vazia no canto superior esquerdo -->
+        {% for dia in matriz_alocacao.0 %}
+          <th>{{ dia }}</th>  <!-- Exibe os dias do mês na primeira linha -->
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for linha in matriz_alocacao|slice:"1:" %}
+        <tr>
+          <th>{{ linha.0 }}</th>  <!-- Exibe o nome do funcionário na primeira coluna -->
+          {% for posto in linha|slice:"1:" %}
+            <td>{{ posto }}</td>  <!-- Exibe os postos de trabalho nas células restantes -->
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

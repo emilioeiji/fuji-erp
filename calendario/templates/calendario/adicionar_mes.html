@@ -1,0 +1,21 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Calendário {% endblock %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'adicionar_mes' %}">
+    {% csrf_token %}
+    <label for="mes">Mês:</label>
+    <input type="number" name="mes" id="mes" required>
+    <br>
+    <label for="ano">Ano:</label>
+    <input type="number" name="ano" id="ano" required>
+    <br>
+    <button type="submit">Adicionar</button>
+  </form>
+
+{% endblock %}

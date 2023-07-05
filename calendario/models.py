@@ -1,7 +1,9 @@
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 from dateutil import relativedelta
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from cadastro.models import GrupoFolga, Master, PostoTrabalho
 
@@ -28,19 +30,21 @@ class FuncionarioCalendario(models.Model):
 
 class CalendarioManager(models.Manager):
     def criar_calendario(self, mes, ano):
-        primeiro_dia = datetime(ano, mes, 1).date()
-        ultimo_dia = primeiro_dia + relativedelta.relativedelta(day=31)
+        primeiro_dia = date(ano, mes, 1)
+        ultimo_dia = primeiro_dia.replace(
+            day=1, month=mes+1) - timedelta(days=1)
 
-        calendario = self.create(mes=mes, ano=ano)
+        calendario = Calendario(mes=mes, ano=ano)
+        calendario.save()
 
-        for data in daterange(primeiro_dia, ultimo_dia):
+        # Cria os objetos DiaCalendario para cada dia do mês
+        dia_atual = primeiro_dia
+        while dia_atual <= ultimo_dia:
             DiaCalendario.objects.create(
                 calendario=calendario,
-                data=data,
-                funcionario=calendario.funcionario,
-                # Função para calcular o posto de trabalho
-                posto_de_trabalho=calcular_posto_de_trabalho(data)
+                data=dia_atual
             )
+            dia_atual += timedelta(days=1)
 
         return calendario
 
@@ -50,6 +54,31 @@ class Calendario(models.Model):
     mes = models.PositiveIntegerField()
     ano = models.PositiveIntegerField()
     bloqueado = models.BooleanField(default=False)
+
+    def obter_matriz_alocacao(self):
+        funcionarios = FuncionarioCalendario.objects.all()
+        dias = DiaCalendario.objects.filter(calendario=self)
+
+        # Cria uma lista com os dias do mês
+        primeira_linha = [str(dia.data.day) for dia in dias]
+
+        # Inicializa a matriz com a primeira linha
+        matriz_alocacao = [primeira_linha]
+
+        for funcionario in funcionarios:
+            alocacoes_funcionario = Alocacao.objects.filter(
+                calendario=self, funcionario=funcionario)
+            # Adiciona o nome do funcionário na primeira coluna
+            linha_alocacao = [funcionario.funcionario.nomeRomanji]
+
+            for dia in dias:
+                alocacao = alocacoes_funcionario.filter(dia=dia).first()
+                posto_trabalho = alocacao.posto_trabalho if alocacao else None
+                linha_alocacao.append(posto_trabalho)
+
+            matriz_alocacao.append(linha_alocacao)
+
+        return matriz_alocacao
 
     class Meta:
         ordering = ['-mes', '-ano']
@@ -75,7 +104,8 @@ class DiaCalendario(models.Model):
 
 
 class Alocacao(models.Model):
-    calendario = models.ForeignKey(Calendario, on_delete=models.CASCADE)
+    calendario = models.ForeignKey(
+        Calendario, on_delete=models.CASCADE)
     dia = models.ForeignKey(DiaCalendario, on_delete=models.CASCADE)
     funcionario = models.ForeignKey(
         FuncionarioCalendario, on_delete=models.CASCADE)
