@@ -146,7 +146,9 @@ class CalendarioDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         calendario = self.object
         matriz_alocacao = calendario.obter_matriz_alocacao()
+        funcionarios = FuncionarioCalendario.objects.all()
         context['matriz_alocacao'] = matriz_alocacao
+        context['funcionarios'] = funcionarios
         return context
 
 

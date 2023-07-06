@@ -12,6 +12,8 @@ class FuncionarioCalendario(models.Model):
     funcionario = models.OneToOneField(
         Master, on_delete=models.CASCADE)
     grupo = models.ForeignKey(GrupoFolga, on_delete=models.CASCADE)
+    mes = models.PositiveIntegerField()
+    ano = models.PositiveIntegerField()
 
     class Meta:
         ordering = [
@@ -25,7 +27,7 @@ class FuncionarioCalendario(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.funcionario.codigoEmpregado} - {self.funcionario.nomeRomanji} - {self.grupo} - {self.funcionario.nomeProcesso}"
+        return f"{self.funcionario.codigoEmpregado} - {self.funcionario.nomeRomanji} - {self.grupo} - {self.funcionario.nomeProcesso} - {self.mes}-{self.ano}"
 
 
 class CalendarioManager(models.Manager):
@@ -67,7 +69,7 @@ class Calendario(models.Model):
 
         for funcionario in funcionarios:
             alocacoes_funcionario = Alocacao.objects.filter(
-                calendario=self, funcionario=funcionario)
+                calendario_id=self.id, funcionario=funcionario)
             # Adiciona o nome do funcionário na primeira coluna
             linha_alocacao = [funcionario.funcionario.nomeRomanji]
 
