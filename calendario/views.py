@@ -15,8 +15,9 @@ from .models import Calendario, DiaCalendario, FuncionarioCalendario
 
 
 @login_required()
-def lista_funcionario_calendario(request):
-    funcionarios = FuncionarioCalendario.objects.all().order_by('grupo', 'funcionario')
+def lista_funcionario_calendario(request, mes, ano):
+    funcionarios = FuncionarioCalendario.objects.filter(
+        mes=mes, ano=ano).order_by('grupo', 'funcionario')
     for funcionario in funcionarios:
         if str(funcionario.grupo) == 'A':
             funcionario.estilo_grupo = 'bg-a'
@@ -46,12 +47,14 @@ def lista_funcionario_calendario(request):
 
     context = {
         'funcionarios': funcionarios,
+        'mes': mes,
+        'ano': ano
     }
     return render(request, 'calendario/listar_funcionarios.html', context)
 
 
 @login_required()
-def adicionar_funcionario_calendario(request):
+def adicionar_funcionario_calendario(request, mes, ano):
     if request.method == 'POST':
         funcionario_codigo = request.POST.get('funcionario')
         grupo_id = request.POST.get('grupo')
@@ -59,12 +62,12 @@ def adicionar_funcionario_calendario(request):
         funcionario = Master.objects.get(codigoEmpregado=funcionario_codigo)
         grupo = GrupoFolga.objects.get(id=grupo_id)
 
-        if FuncionarioCalendario.objects.filter(funcionario=funcionario).exists():
-            return redirect('listar_funcionarios')
+        if FuncionarioCalendario.objects.filter(funcionario_id=funcionario.codigoEmpregado, mes=mes, ano=ano).exists():
+            return redirect('listar_funcionarios', mes=mes, ano=ano)
 
         FuncionarioCalendario.objects.create(
-            funcionario=funcionario, grupo=grupo)
-        return redirect('listar_funcionarios')
+            funcionario=funcionario, grupo=grupo, mes=mes, ano=ano)
+        return redirect('listar_funcionarios', mes=mes, ano=ano)
 
     funcionarios = Master.objects.all()
     grupos = GrupoFolga.objects.all()
@@ -120,22 +123,13 @@ def excluir_funcionario_calendario(request, funcionario_calendario_id):
 
 @login_required()
 def calendario(request):
-    hoje = timezone.now().date()
-    inicio_do_mes = hoje.replace(day=1)
-    fim_do_mes = inicio_do_mes + timedelta(days=32)
+    calendario = Calendario.objects.all().order_by('-ano', '-mes')
 
-    ano = inicio_do_mes.year
-    mes = inicio_do_mes.month
-    _, ultimo_dia = calendar.monthrange(ano, mes)
+    context = {
+        'calendario': calendario,
+    }
 
-    dias_do_mes = [str(dia) for dia in range(1, ultimo_dia + 1)]
-
-    calendario = DiaCalendario.objects.filter(
-        calendario__ano=ano,
-        calendario__mes=mes
-    ).order_by('data', 'funcionario__nomeRomanji')
-
-    return render(request, 'calendario/calendario.html', {'calendario': calendario, 'dias_do_mes': dias_do_mes})
+    return render(request, 'calendario/calendario.html', context)
 
 
 class CalendarioDetailView(DetailView):

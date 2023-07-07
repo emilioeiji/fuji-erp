@@ -9,25 +9,35 @@ from cadastro.models import GrupoFolga, Master, PostoTrabalho
 
 
 class FuncionarioCalendario(models.Model):
-    funcionario = models.OneToOneField(
-        Master, on_delete=models.CASCADE)
+    funcionario = models.ForeignKey(Master, on_delete=models.CASCADE)
     grupo = models.ForeignKey(GrupoFolga, on_delete=models.CASCADE)
     mes = models.PositiveIntegerField()
     ano = models.PositiveIntegerField()
 
     class Meta:
         ordering = [
+            '-ano',
+            '-mes',
             'grupo',
             'funcionario'
         ]
         constraints = [
             models.UniqueConstraint(
-                fields=['funcionario', 'grupo'], name='unique_calendario_funcionario'
+                fields=['ano', 'mes', 'funcionario', 'grupo'],
+                name='unique_calendario_funcionario'
             )
         ]
 
     def __str__(self):
-        return f"{self.funcionario.codigoEmpregado} - {self.funcionario.nomeRomanji} - {self.grupo} - {self.funcionario.nomeProcesso} - {self.mes}-{self.ano}"
+        return ' - '.join([
+            str(self.ano),
+            str(self.mes),
+            str(self.funcionario.codigoEmpregado),
+            self.funcionario.nomeRomanji,
+            str(self.grupo),
+            str(self.funcionario.nomeProcesso)
+        ])
+        # return f"{self.funcionario.codigoEmpregado} - {self.funcionario.nomeRomanji} - {self.grupo} - {self.funcionario.nomeProcesso} - {self.mes}-{self.ano}"
 
 
 class CalendarioManager(models.Manager):

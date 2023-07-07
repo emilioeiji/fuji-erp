@@ -7,15 +7,26 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'adicionar_mes' %}">
-    {% csrf_token %}
-    <label for="mes">Mês:</label>
-    <input type="number" name="mes" id="mes" required>
-    <br>
-    <label for="ano">Ano:</label>
-    <input type="number" name="ano" id="ano" required>
-    <br>
-    <button type="submit">Adicionar</button>
-  </form>
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-xl-2 col-md-2">
+
+                <h3>Criar Calendário</h3>
+
+                <form method="POST" action="{% url 'adicionar_mes' %}">
+                    {% csrf_token %}
+                    <label class="form-label" for="mes">Mês</label>
+                    <input class="form-control" type="number" name="mes" id="mes" required>
+                    <br>
+                    <label class="form-label" for="ano">Ano</label>
+                    <input class="form-control" type="number" name="ano" id="ano" required>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Salvar</button>
+                    <button class="btn btn-secondary" onclick="window.history.back();">Voltar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

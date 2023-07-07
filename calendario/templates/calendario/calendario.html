@@ -7,74 +7,37 @@
 
 {% block content %}
 
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>Funcionário</th>
-            {% for dia in dias_do_mes %}
-            <th>{{ dia }}</th>
-            {% endfor %}
-        </tr>
-        </thead >
-        <tbody>
-            {% regroup calendario by calendario__funcionario__id as funcionarios %}
-            {% for funcionario in funcionarios %}
-                <tr>
-                    <td>{{ funcionario.grouper.calendario__funcionario.nomeRomanji }}</td>
-                    {% for dia in dias_do_mes %}
-                        <td class="editable" contenteditable="true" data-id="{{ funcionario.grouper.calendario__funcionario__id }}" data-data="{{ dia }}">
-                            {% for dia_calendario in funcionario.list %}
-                                {% if dia_calendario.data.day == dia|add:'0' %}
-                                    {{ dia_calendario.posto_de_trabalho }}
-                                {% endif %}
-                            {% empty %}
-                            {% endfor %}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <div class="container">
+        <h1>Calendário</h1>
+    
+        <a class="btn btn-primary" href="{% url 'adicionar_mes' %}">Adicionar Calendário</a>
+        
+        <div class="row mt-3 justify-content-center text-center">
+            {% for cal in calendario %}
+                    
+                <div class="card m-1" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="text-decoration-none" href="#">
+                            {{ cal.ano }} - {{ cal.mes }}
+                        </a>
+                    </h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Kousu - </li>
+                    <li class="list-group-item">Ririfu - </li>
+                    </ul>
+                    <div class="card-body">
+                    <a href="{% url 'listar_funcionarios' cal.mes cal.ano %}" class="btn btn-primary">Funcionarios</a>
+                    <a href="#" class="btn btn-danger">Excluir</a>
+                    </div>
+                </div>
 
-    <script>
-        $(document).ready(function() {
-            $('.editable').blur(function() {
-                var data_str = $(this).data('data');
-                var funcionario_id = $(this).data('id');
-                var posto_de_trabalho = $(this).text();
-                var codigoEmpregado = $('input[name="codigoEmpregado"]').val();
-                if (codigoEmpregado) {
-                    $.post('editar_calendario/', {
-                        'data': data_str,
-                        'funcionario_id': funcionario_id,
-                        'posto_de_trabalho': posto_de_trabalho,
-                        'codigoEmpregado': codigoEmpregado,
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                    }).done(function() {
-                        console.log('Alterações salvas com sucesso.');
-                    }).fail(function() {
-                        console.error('Não foi possível salvar as alterações.');
-                    });
-                }
-    
-                // Cria um objeto `moment` a partir da string `data_str`
-                var data = moment(data_str, "YYYY-MM-DD");
-    
-                $.post('editar_calendario/', {
-                    'data': data.format("YYYY-MM-DD"),
-                    'funcionario_id': funcionario_id,
-                    'posto_de_trabalho': posto_de_trabalho,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                }).done(function() {
-                    console.log('Alterações salvas com sucesso.');
-                }).fail(function() {
-                    console.error('Não foi possível salvar as alterações.');
-                });
-            });
-        });
-    </script>
+            {% endfor %}
+
+        </div>
+    </div>
+
     
 
 {% endblock %}
