@@ -9,6 +9,7 @@ urlpatterns = [
     path('calendario/<int:pk>/', views.CalendarioDetailView.as_view(),
          name='calendario_detail'),
     path('adicionar_mes/', views.adicionar_mes, name='adicionar_mes'),
+    path('calendario_mes/', views.calendario_mes, name='calendario_mes'),
     path('listar_funcionarios/<int:mes>/<int:ano>/',
          views.lista_funcionario_calendario, name='listar_funcionarios'),
     path('adicionar_funcionario/<int:mes>/<int:ano>/',

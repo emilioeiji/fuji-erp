@@ -10,4 +10,5 @@ urlpatterns = [
     path('contas/', include('contas.urls')),
     path('calendario/', include('calendario.urls')),
     path('uniforme/', include('uniforme.urls')),
+    path('space/', include('space.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

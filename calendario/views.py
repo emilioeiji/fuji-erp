@@ -11,7 +11,7 @@ from django.views.generic import DetailView
 
 from cadastro.models import GrupoFolga, Master
 
-from .models import Calendario, DiaCalendario, FuncionarioCalendario
+from .models import Alocacao, Calendario, DiaCalendario, FuncionarioCalendario
 
 
 @login_required()
@@ -144,6 +144,21 @@ class CalendarioDetailView(DetailView):
         context['matriz_alocacao'] = matriz_alocacao
         context['funcionarios'] = funcionarios
         return context
+
+
+@login_required()
+def calendario_mes(request):
+    calendario_mes = Alocacao.objects.all().order_by('dia')
+    calendario_dia = DiaCalendario.objects.filter(
+        data__year=2023,
+        data__month=7).order_by('data')
+
+    context = {
+        'calendario_mes': calendario_mes,
+        'calendario_dia': calendario_dia,
+    }
+
+    return render(request, 'calendario/calendario_mes.html', context)
 
 
 @login_required()

@@ -61,6 +61,17 @@
                         </ul>
                     </li>
 
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarSpace" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Space
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarSpace">
+                            <li><a class="dropdown-item" href="{% url 'space' %}">Areas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Dados</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item my-auto">
                         <a class="nav-link" href="{% url 'login' %}">
                             {% if user.perfil.foto_perfil %}

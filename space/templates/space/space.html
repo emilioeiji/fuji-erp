@@ -1,0 +1,26 @@
+{% extends 'space_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Space {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-5 mx-auto">
+                <h1>Space</h1>
+
+                <div class="card" style="width: 18rem;">
+                    <ul class="list-group list-group-flush">
+                        {% for space in spaces %}
+                            <li class="list-group-item">{{ space }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

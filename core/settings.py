@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'cadastro.apps.CadastroConfig',
     'contas.apps.ContasConfig',
     'calendario.apps.CalendarioConfig',
-    'uniforme.apps.UniformeConfig'
+    'uniforme.apps.UniformeConfig',
+    'space.apps.SpaceConfig'
 ]
 
 MIDDLEWARE = [

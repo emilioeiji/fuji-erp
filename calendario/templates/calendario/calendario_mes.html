@@ -1,0 +1,36 @@
+{% extends 'cadastro_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Calendário {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Calendário</h1>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    {% for calendario in calendario_dia %}
+                        <th scope="col">{{ calendario.data|date:"d" }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for calendario in calendario_mes %}
+                    <tr>
+                        <th scope="row">{{ calendario.funcionario.funcionario.nomeRomanji }}</th>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+
+    
+
+{% endblock %}
