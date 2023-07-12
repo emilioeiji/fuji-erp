@@ -1,0 +1,25 @@
+{% extends 'space_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %} Space {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1 class="text-center">Temas</h1>
+
+            {% for topico in topicos %}
+            
+                <h1>{{ topico.tema }}</h1>
+                <h4>{{ topico.topico }}</h4>
+                <span>{{ topico.descricao }}</span>
+
+            {% endfor %}
+            
+        </div>
+    </div>
+
+{% endblock %}
