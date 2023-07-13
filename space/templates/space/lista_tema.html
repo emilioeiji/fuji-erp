@@ -1,25 +1,15 @@
-{% extends 'space_base.html' %}
-{% load static %}
-{% load widget_tweaks %}
-
-
-{% block title %} Space {% endblock %}
-
-{% block content %}
-
     <div class="container">
         <div class="row justify-content-center">
-            <h1 class="text-center">Temas</h1>
-
-            {% for topico in topicos %}
             
                 <h1>{{ topico.tema }}</h1>
                 <h4>{{ topico.topico }}</h4>
                 <span>{{ topico.descricao }}</span>
 
+            {% for mensagem in mensagens %}
+                <li>{{ mensagem.mensagem }}</li>
+            {% empty %}
+                <li>No messages found</li>
             {% endfor %}
             
         </div>
     </div>
-
-{% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .models import Space, Tema, Topico
@@ -30,10 +30,12 @@ def lista_space(request, space_id):
 
 @login_required()
 def lista_tema(request, tema_id):
-    topicos = Topico.objects.filter(tema_id=tema_id).order_by('topico')
+    topico = get_object_or_404(Topico, id=tema_id)
+    mensagens = topico.mensagem_set.order_by('-data_hora_criacao')
 
     context = {
-        'topicos': topicos,
+        'topico': topico,
+        'mensagens': mensagens,
     }
 
     return render(request, 'space/lista_tema.html', context)
