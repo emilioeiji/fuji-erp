@@ -5,11 +5,30 @@
                 <h4>{{ topico.topico }}</h4>
                 <span>{{ topico.descricao }}</span>
 
-            {% for mensagem in mensagens %}
-                <li>{{ mensagem.mensagem }}</li>
-            {% empty %}
-                <li>No messages found</li>
-            {% endfor %}
-            
+            <div class="message-list">
+
+                {% for mensagem in mensagens %}
+                <hr class="border-top my-3" style="border-width: 3px;">
+                    <div class="row">
+                        <p>
+                            {{ topico.usuario.last_name }}
+                            <p class="fw-lighter"><i class="fa-solid fa-calendar-days"></i> {{ mensagem.data_hora_criacao }}</p>
+                        </p>
+                    </div>
+
+                    <div class="row mt-2">
+                        <p>
+                            {{ mensagem.mensagem }}
+                        </p>
+                    </div>
+                {% empty %}
+                <div class="row mt-2">
+                    <p class="fw-lighter">
+                        <i class="fa-solid fa-xmark"></i>
+                        No messages found
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
