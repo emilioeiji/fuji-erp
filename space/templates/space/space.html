@@ -16,7 +16,18 @@
                     {% for space in spaces %}
                         <li class="list-group-item">
                             <a class="text-decoration-none" href="{% url 'lista_space' space.id %}">
-                                {{ space }}
+                                <div class="row d-flex">
+                                    <div class="col">
+                                        {{ space }}
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        {% if mensagens_nao_lidas > 0 %}
+                                            <span class="text-warning">
+                                                <i class="fa-solid fa-circle-exclamation"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     {% endfor %}

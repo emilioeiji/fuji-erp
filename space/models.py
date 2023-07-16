@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 from cadastro.models import Area, Master
@@ -54,3 +56,24 @@ class Mensagem(models.Model):
 
     def __str__(self):
         return self.mensagem
+
+
+@receiver(post_save, sender=Mensagem)
+def criar_leitura_mensagem(sender, instance, created, **kwargs):
+    if created:
+        usuarios = User.objects.all()
+
+        for usuario in usuarios:
+            # Verifica se o usuário é o mesmo que criou a mensagem
+            lida = usuario == instance.usuario
+            LeituraMensagem.objects.create(
+                mensagem=instance, usuario=usuario, lida=lida)
+
+
+class LeituraMensagem(models.Model):
+    mensagem = models.ForeignKey(Mensagem, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    lida = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Leitura da mensagem {self.mensagem_id} pelo usuário {self.usuario_id}"
