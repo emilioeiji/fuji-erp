@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
 from cadastro.models import Area, Master
+from contas.models import Perfil
 
 
 class Space(models.Model):
@@ -61,7 +63,10 @@ class Mensagem(models.Model):
 @receiver(post_save, sender=Mensagem)
 def criar_leitura_mensagem(sender, instance, created, **kwargs):
     if created:
-        usuarios = User.objects.all()
+        usuarios = User.objects.filter(
+            Q(perfil__area=instance.topico.tema.space.area.area) | Q(
+                id=instance.usuario_id)
+        )
 
         for usuario in usuarios:
             # Verifica se o usuário é o mesmo que criou a mensagem

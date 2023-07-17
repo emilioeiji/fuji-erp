@@ -20,17 +20,20 @@
 
                 {% for mensagem in mensagens %}
                 <hr class="border-top my-3" style="border-width: 3px;">
-                    <div class="row">
-                        <p>
-                            {{ topico.usuario.last_name }}
+                    <div class="row d-flex align-items-start">
+                        <div class="col flex-grow-0">
+                            <p>{{ topico.usuario.last_name }}</p>
+                        </div>
+                        <div class="col flex-grow-1">
                             <p class="fw-lighter"><i class="fa-solid fa-calendar-days"></i> {{ mensagem.data_hora_criacao }}</p>
-                        </p>
+                        </div>
                     </div>
 
                     <div class="row mt-2">
                         <p>
                             {{ mensagem.mensagem }}
                         </p>
+                        
                     </div>
                 {% empty %}
                 <div class="row mt-2">

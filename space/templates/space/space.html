@@ -21,7 +21,7 @@
                                         {{ space }}
                                     </div>
                                     <div class="col-auto align-self-center">
-                                        {% if mensagens_nao_lidas > 0 %}
+                                        {% if mensagens_nao_lidas > 0 and space.area.area == perfil.area %}
                                             <span class="text-warning">
                                                 <i class="fa-solid fa-circle-exclamation"></i>
                                             </span>

@@ -3,15 +3,19 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from contas.models import Perfil
+
 from .models import Mensagem, Space, Tema, Topico
 
 
 @login_required()
 def space(request):
     spaces = Space.objects.all().order_by('area')
+    perfil = Perfil.objects.get(usuario=request.user)
 
     context = {
         'spaces': spaces,
+        'perfil': perfil,
     }
 
     return render(request, 'space/space.html', context)
