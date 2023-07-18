@@ -14,8 +14,9 @@
                             <label for="mensagem">Nova Mensagem</label>
                             <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+                        <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
                     </form>
+                    
                 </div>
 
                 {% for mensagem in mensagens %}
@@ -31,9 +32,16 @@
 
                     <div class="row mt-2">
                         <p>
-                            {{ mensagem.mensagem }}
+                            {{ mensagem.mensagem }} {{ mensagem.foi_lida }}
                         </p>
                         
+                    </div>
+                    <div class="row">
+                        {% if mensagem.lida %}
+                            <i class="fa-solid fa-book-open"></i>
+                        {% else %}
+                            <i class="fa-solid fa-book text-muted"></i>
+                        {% endif %}
                     </div>
                 {% empty %}
                 <div class="row mt-2">
@@ -46,3 +54,4 @@
             </div>
         </div>
     </div>
+    

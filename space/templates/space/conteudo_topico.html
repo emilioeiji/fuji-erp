@@ -1,0 +1,100 @@
+<hx:div hx-target="#conteudo-topico">
+    <div class="container">
+        <div class="row justify-content-center">
+        
+            <h1>{{ topico.tema }}</h1>
+            <h4>{{ topico.topico }}</h4>
+            <span>{{ topico.descricao }}</span>
+
+            <div class="message-list">
+
+            <div class="row mt-3">
+                <form method="POST" hx-post="{% url 'lista_tema' topico_id=topico.id %}" hx-target="#conteudo-topico">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="mensagem">Nova Mensagem</label>
+                        <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
+                </form>
+                
+                
+            </div>
+
+            {% for mensagem in mensagens %}
+            <hr class="border-top my-3" style="border-width: 3px;">
+                <div class="row d-flex align-items-start">
+                    <div class="col flex-grow-0">
+                        <p>{{ topico.usuario.last_name }}</p>
+                    </div>
+                    <div class="col flex-grow-1">
+                        <p class="fw-lighter"><i class="fa-solid fa-calendar-days"></i> {{ mensagem.data_hora_criacao }}</p>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <p>
+                        {{ mensagem.mensagem }} {{ mensagem.foi_lida }}
+                    </p>
+                    
+                </div>
+                <div class="row">
+                    {% if mensagem.lida %}
+                        <i class="fa-solid fa-book-open"></i>
+                    {% else %}
+                        <i class="fa-solid fa-book text-muted"></i>
+                    {% endif %}
+                </div>
+            {% empty %}
+            <div class="row mt-2">
+                <p class="fw-lighter">
+                    <i class="fa-solid fa-xmark"></i>
+                    No messages found
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</hx:div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('enviar-btn').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            var form = document.querySelector('form');
+            var url = form.getAttribute('action');
+            var formData = new FormData(form);
+
+            // Fazer uma requisição AJAX para o URL do tópico atual
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Atualizar apenas o conteúdo do tópico
+                    var conteudoTopico = document.getElementById('conteudo-topico');
+                    conteudoTopico.innerHTML = xhr.responseText;
+                } else {
+                    console.error('Erro ao enviar mensagem.');
+                }
+            };
+            xhr.send(formData);
+        });
+    });
+</script>
+<script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+<script>
+    htmx.on('htmx:afterRequest', function(event) {
+        // Verificar se a requisição foi feita pelo formulário de envio de mensagem
+        if (event.detail.elt.id === 'enviar-btn') {
+            // Verificar se a requisição foi bem-sucedida
+            if (event.detail.xhr.status === 200) {
+                // Limpar o campo de mensagem
+                document.getElementById('mensagem').value = '';
+            } else {
+                console.error('Erro ao enviar mensagem.');
+            }
+        }
+    });
+</script>

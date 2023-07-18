@@ -21,7 +21,7 @@
                                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4 small">
                                                 {% for topico in tema.topico_set.all %}
                                                 <li>
-                                                    <a href="{% url 'lista_tema' tema_id=topico.id %}" class="link-dark text-decoration-none" hx-get="{% url 'lista_tema' tema_id=topico.id %}" hx-target="#conteudo-topico" hx-trigger="click">
+                                                    <a href="{% url 'lista_tema' tema_id=topico.id %}" class="link-dark text-decoration-none" hx-get="{% url 'lista_tema' topico.id %}" hx-target="#conteudo-topico" hx-trigger="click">
                                                         {{ topico.topico }}
                                                     </a>
                                                 </li>
@@ -40,37 +40,12 @@
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div id="conteudo-topico" hx-swap-oob="true">
-                    <!-- O conteúdo do tópico será carregado aqui -->
-                </div>
+                {% block conteudo_topico %}
+                    <div id="conteudo-topico" hx-swap-oob="true">
+                        <!-- O conteúdo do tópico será carregado aqui -->
+                    </div>
+                {% endblock %}
             </main>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function carregarConteudo(event, topicoId, url, target) {
-            event.preventDefault();
-            hx.get(url, {
-                target: target
-            });
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('form').addEventListener('submit', function(event) {
-                event.preventDefault();
-    
-                var form = event.target;
-                var url = form.getAttribute('action');
-                var formData = new FormData(form);
-    
-                hx.post(url, formData, {
-                    target: '#conteudo-topico'
-                });
-            });
-        });
-    </script>
-    
-    
 {% endblock %}
