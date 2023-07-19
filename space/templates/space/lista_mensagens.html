@@ -21,7 +21,7 @@
                                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-4 small">
                                                 {% for topico in tema.topico_set.all %}
                                                 <li>
-                                                    <a href="{% url 'lista_tema' tema_id=topico.id %}" class="link-dark text-decoration-none" hx-get="{% url 'lista_tema' topico.id %}" hx-target="#conteudo-topico" hx-trigger="click">
+                                                    <a href="{% url 'conteudo_topico' space_id=space_id tema_id=topico.id %}" class="link-dark text-decoration-none">
                                                         {{ topico.topico }}
                                                     </a>
                                                 </li>

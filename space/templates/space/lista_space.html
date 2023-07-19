@@ -46,31 +46,5 @@
             </main>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function carregarConteudo(event, topicoId, url, target) {
-            event.preventDefault();
-            hx.get(url, {
-                target: target
-            });
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('form').addEventListener('submit', function(event) {
-                event.preventDefault();
-    
-                var form = event.target;
-                var url = form.getAttribute('action');
-                var formData = new FormData(form);
-    
-                hx.post(url, formData, {
-                    target: '#conteudo-topico'
-                });
-            });
-        });
-    </script>
-    
     
 {% endblock %}
