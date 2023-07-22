@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -24,10 +25,11 @@ def space(request):
 @login_required()
 def lista_mensagens(request, space_id):
     temas = Tema.objects.filter(space_id=space_id).order_by('nome')
+    space_id = space_id
 
     context = {
         'temas': temas,
-        'space_id': space_id
+        'space_id': space_id,
     }
 
     return render(request, 'space/lista_mensagens.html', context)

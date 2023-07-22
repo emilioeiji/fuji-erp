@@ -43,6 +43,13 @@ class Topico(models.Model):
     descricao = models.TextField(blank=True, null=True)
     data_hora_criacao = models.DateTimeField(default=timezone.now)
 
+    @property
+    def mensagens_nao_lidas(self):
+        return self.mensagem_set.filter(
+            leituramensagem__usuario=self.usuario,
+            leituramensagem__lida=False
+        ).count()
+
     class Meta:
         ordering = ['tema', 'topico']
 

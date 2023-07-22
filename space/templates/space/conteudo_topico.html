@@ -23,6 +23,11 @@
                                                 <li>
                                                     <a href="{% url 'conteudo_topico' space_id=space_id tema_id=topico.id %}" class="link-dark text-decoration-none">
                                                         {{ topico.topico }}
+                                                        {% if topico.mensagens_nao_lidas > 0 %}
+                                                            <span class="badge bg-danger">
+                                                                {{ topico.mensagens_nao_lidas }}
+                                                            </span>
+                                                        {% endif %}
                                                     </a>
                                                 </li>
                                                 
