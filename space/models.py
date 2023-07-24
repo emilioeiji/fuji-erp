@@ -54,6 +54,8 @@ class Mensagem(models.Model):
     topico = models.ForeignKey(Topico, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     mensagem = models.TextField()
+    mensagem_original = models.ForeignKey(
+        'self', null=True, blank=True, related_name='respostas', on_delete=models.CASCADE)
     data_hora_criacao = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

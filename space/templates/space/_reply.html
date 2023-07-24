@@ -1,0 +1,24 @@
+<div class="row d-flex align-items-start">
+    <div class="col flex-grow-0">
+        <p>{{ reply.usuario.last_name }}</p>
+    </div>
+    <div class="col flex-grow-1">
+        <p class="fw-lighter"><i class="fa-solid fa-calendar-days"></i> {{ reply.data_hora_criacao }}</p>
+    </div>
+</div>
+<div class="row mt-2">
+    <p>
+        {{ reply.mensagem }} {{ reply.foi_lida }}
+    </p>
+</div>
+<div class="row">
+    <div class="d-flex align-items-center">
+        {% if reply.lida %}
+            <i class="fa-solid fa-book-open text-muted me-2"></i>
+        {% else %}
+            <a href="{% url 'marcar_mensagem_lida' reply.topico.tema.space_id reply.topico.id reply.id %}">
+                <i class="fa-solid fa-book text-warning me-2"></i>
+            </a>
+        {% endif %}
+    </div>
+</div>

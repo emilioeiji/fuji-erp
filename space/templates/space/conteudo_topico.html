@@ -34,7 +34,7 @@
                                                         {{ topico.topico }}
                                                         {% for mensagem in mensagens_nao_lidas %}
                                                             {% if mensagem.mensagem__topico == topico.id %}
-                                                                <span class="badge bg-primary">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
+                                                                <span class="badge bg-warning">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </a>
@@ -92,12 +92,36 @@
                                 
                             </div>
                             <div class="row">
-                                {% if mensagem.lida %}
-                                    <i class="fa-solid fa-book-open"></i>
-                                {% else %}
-                                    <i class="fa-solid fa-book text-muted"></i>
-                                {% endif %}
+                                <div class="d-flex align-items-center">
+                                    {% if mensagem.lida %}
+                                        <i class="fa-solid fa-book-open text-muted me-2"></i>
+                                    {% else %}
+                                        <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id mensagem.id %}">
+                                            <i class="fa-solid fa-book text-warning me-2"></i>
+                                        </a>
+                                    {% endif %}
+                                    <a href="#" class="mostrar-formulario-link" data-formulario="formulario-{{ mensagem.id }}">
+                                        <i class="fa-solid fa-comment-dots text-dark"></i>
+                                    </a>
+                                </div>
                             </div>
+                            <div id="formulario-{{ mensagem.id }}" class="container formulario m-2" style="display: none;">
+                                <div class="row">
+
+                                    <div class="col">
+                                        <form method="POST" action="{% url 'conteudo_topico' space_id tema_id %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="mensagem">Nova Mensagem</label>
+                                                <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
                         {% empty %}
                         <div class="row mt-2">
                             <p class="fw-lighter">
@@ -111,4 +135,17 @@
             </main>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".mostrar-formulario-link").click(function () {
+                var formularioID = $(this).data("formulario");
+                $("#" + formularioID).toggle();
+            });
+        });
+    </script>
+    
+
 {% endblock %}
