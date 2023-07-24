@@ -42,10 +42,6 @@ def conteudo_topico(request, space_id, tema_id):
     topico = get_object_or_404(Topico, id=tema_id)
     mensagens = topico.mensagem_set.order_by('-data_hora_criacao')
 
-    # topico.lida = LeituraMensagem.objects.filter(
-    #    usuario=request.user
-    # ).values('mensagem__topico')
-
     for mensagem in mensagens:
         mensagem.lida = mensagem.leituramensagem_set.filter(
             usuario=request.user, lida=True).exists()

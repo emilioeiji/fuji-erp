@@ -14,6 +14,15 @@
                             <li class="nav-item">
                                 <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="false">
                                     {{ tema.nome }}
+                                    {% for topico in tema.topico_set.all %}
+                                        {% for mensagem in mensagens_nao_lidas %}
+                                            {% if mensagem.mensagem__topico == topico.id %}
+                                                <span class="text-warning">
+                                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                                </span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
                                 </button>
                                 <div class="collapse" id="collapse-{{ forloop.counter }}">
                                     <div class="row">
@@ -23,11 +32,11 @@
                                                 <li>
                                                     <a href="{% url 'conteudo_topico' space_id=space_id tema_id=topico.id %}" class="link-dark text-decoration-none">
                                                         {{ topico.topico }}
-                                                        {% if topico.mensagens_nao_lidas > 0 %}
-                                                            <span class="badge bg-danger">
-                                                                {{ topico.mensagens_nao_lidas }}
-                                                            </span>
-                                                        {% endif %}
+                                                        {% for mensagem in mensagens_nao_lidas %}
+                                                            {% if mensagem.mensagem__topico == topico.id %}
+                                                                <span class="badge bg-primary">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
                                                     </a>
                                                 </li>
                                                 
