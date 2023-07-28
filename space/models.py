@@ -5,8 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from cadastro.models import Area, Master
-from contas.models import Perfil
+from cadastro.models import Area
 
 
 class Space(models.Model):
@@ -57,6 +56,10 @@ class Mensagem(models.Model):
     mensagem_original = models.ForeignKey(
         'self', null=True, blank=True, related_name='respostas', on_delete=models.CASCADE)
     data_hora_criacao = models.DateTimeField(default=timezone.now)
+    data_hora_resposta = models.DateTimeField(default=timezone.now)
+
+    def is_lida_by_user(self, user):
+        return self.leituramensagem_set.filter(usuario=user, lida=True).exists()
 
     def __str__(self):
         return self.mensagem

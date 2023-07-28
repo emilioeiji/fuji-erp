@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
-from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.utils import timezone
 
 from contas.models import Perfil
 
@@ -40,11 +38,17 @@ def conteudo_topico(request, space_id, tema_id):
     temas = Tema.objects.filter(space_id=space_id).order_by('nome')
     space_id = space_id
     topico = get_object_or_404(Topico, id=tema_id)
-    mensagens = topico.mensagem_set.order_by('-data_hora_criacao')
+    mensagens = topico.mensagem_set.order_by('-data_hora_resposta')
+
+    # Obter IDs das mensagens já lidas pelo usuário
+    mensagens_lidas_ids = set(LeituraMensagem.objects.filter(
+        usuario=request.user, mensagem__topico=topico).values_list('mensagem', flat=True))
 
     for mensagem in mensagens:
-        mensagem.lida = mensagem.leituramensagem_set.filter(
-            usuario=request.user, lida=True).exists()
+        mensagem.lida = mensagem.id in mensagens_lidas_ids
+
+        for resposta in mensagem.respostas.all():
+            resposta.lida = resposta.id in mensagens_lidas_ids
 
     if request.method == 'POST':
         mensagem = request.POST.get('mensagem')
@@ -91,9 +95,15 @@ def adicionar_resposta(request, space_id, tema_id, topico_id, mensagem_id):
             topico=topico,
             usuario=request.user,
             mensagem=mensagem,
-            mensagem_original=mensagem_original
+            mensagem_original=mensagem_original,
+            data_hora_resposta=timezone.now()  # Define a data e hora da resposta
         )
         nova_resposta.save()
+
+        # Atualiza o campo data_hora_resposta da mensagem original para a data da resposta
+        mensagem_original.data_hora_resposta = nova_resposta.data_hora_resposta
+        mensagem_original.save()
+
         return redirect('conteudo_topico', space_id=space_id, tema_id=tema_id)
 
     context = {

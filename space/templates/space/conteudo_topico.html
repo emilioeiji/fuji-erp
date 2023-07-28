@@ -1,6 +1,7 @@
 {% extends 'space_base.html' %}
 {% load static %}
 {% load widget_tweaks %}
+{% load custom_filters %}
 
 {% block title %} Space {% endblock %}
 
@@ -61,7 +62,6 @@
                     <span>{{ topico.descricao }}</span>
     
                     <div class="message-list">
-        
                         <div class="row mt-3">
                             <form method="POST" action="{% url 'conteudo_topico' space_id tema_id %}">
                                 {% csrf_token %}
@@ -71,56 +71,87 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
                             </form>
-                            
                         </div>
-        
+                        
                         {% for mensagem in mensagens %}
-                        <hr class="border-top my-3" style="border-width: 3px;">
-                            <div class="row d-flex align-items-start">
-                                <div class="col flex-grow-0">
-                                    <p>{{ topico.usuario.last_name }}</p>
-                                </div>
-                                <div class="col flex-grow-1">
-                                    <p class="fw-lighter"><i class="fa-solid fa-calendar-days"></i> {{ mensagem.data_hora_criacao }}</p>
-                                </div>
-                            </div>
-        
-                            <div class="row mt-2">
-                                <p>
-                                    {{ mensagem.mensagem }} {{ mensagem.foi_lida }}
-                                </p>
-                                
-                            </div>
-                            <div class="row">
-                                <div class="d-flex align-items-center">
-                                    {% if mensagem.lida %}
-                                        <i class="fa-solid fa-book-open text-muted me-2"></i>
-                                    {% else %}
-                                        <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id mensagem.id %}">
-                                            <i class="fa-solid fa-book text-warning me-2"></i>
-                                        </a>
-                                    {% endif %}
-                                    <a href="#" class="mostrar-formulario-link" data-formulario="formulario-{{ mensagem.id }}">
-                                        <i class="fa-solid fa-comment-dots text-dark"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div id="formulario-{{ mensagem.id }}" class="container formulario m-2" style="display: none;">
-                                <div class="row">
-
-                                    <div class="col">
-                                        <form method="POST" action="{% url 'conteudo_topico' space_id tema_id %}">
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                                <label for="mensagem">Nova Mensagem</label>
-                                                <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                            {% if not mensagem.mensagem_original %}
+                                <div class="shadow p-3 mt-3 mb-3 bg-body rounded">
+                                    <div class="row d-flex align-items-start">
+                                        <div class="col flex-grow-0">
+                                            <p class="fw-light">{{ topico.usuario.last_name }}</p>
+                                        </div>
+                                        <div class="col flex-grow-1">
+                                            <p class="fw-lighter">{{ mensagem.data_hora_criacao }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <p>
+                                            {{ mensagem.mensagem }}
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="d-flex align-items-center">
+                                            {% if mensagem|is_lida_by_user:request.user %}
+                                                <i class="fa-solid fa-book-open text-muted me-2"></i>
+                                            {% else %}
+                                                <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id mensagem.id %}">
+                                                    <i class="fa-solid fa-book text-warning me-2"></i>
+                                                </a>
+                                            {% endif %}
+                                            <a href="#" class="mostrar-formulario-link" data-formulario="formulario-{{ mensagem.id }}">
+                                                <i class="fa-solid fa-comment-dots text-dark"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    {% for resposta in mensagem.respostas.all %}
+                                        <div class="container ms-5">
+                                            <div class="shadow-sm p-3 mt-1 mb-2 bg-body rounded">
+                                                <div class="row d-flex align-items-start">
+                                                    <div class="col flex-grow-0">
+                                                        <p class="fw-lighter">{{ resposta.usuario }}</p>
+                                                    </div>
+                                                    <div class="col flex-grow-1">
+                                                        <p class="fw-lighter">{{ resposta.data_hora_criacao }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <p>
+                                                        {{ resposta.mensagem }}
+                                                    </p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="d-flex align-items-center">
+                                                        {% if resposta|is_lida_by_user:request.user %}
+                                                            <i class="fa-solid fa-book-open text-muted me-2"></i>
+                                                        {% else %}
+                                                            <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id resposta.id %}">
+                                                                <i class="fa-solid fa-book text-warning me-2"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
-                                        </form>
+                                        </div>
+                                    {% endfor %}
+    
+                                    <div id="formulario-{{ mensagem.id }}" class="container formulario m-2" style="display: none;">
+                                        <div class="row">
+                                            <div class="col">
+                                                <form method="POST" action="{% url 'adicionar_resposta' space_id tema_id topico.id mensagem.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="mensagem">Nova Mensagem</label>
+                                                        <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
+                                
+                            {% endif %}
                             
                         {% empty %}
                         <div class="row mt-2">

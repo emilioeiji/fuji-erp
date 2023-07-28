@@ -12,4 +12,6 @@ urlpatterns = [
          views.conteudo_topico, name='conteudo_topico'),
     path('marcar-mensagem-lida/<int:space_id>/<int:tema_id>/<int:mensagem_id>/',
          views.marcar_mensagem_lida, name='marcar_mensagem_lida'),
+    path('adicionar-resposta/<int:space_id>/<int:tema_id>/<int:topico_id>/<int:mensagem_id>/',
+         views.adicionar_resposta, name='adicionar_resposta'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
