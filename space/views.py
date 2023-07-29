@@ -22,6 +22,15 @@ def space(request):
 
 @login_required()
 def lista_mensagens(request, space_id):
+    try:
+        space = Space.objects.get(id=space_id)
+    except Space.DoesNotExist:
+        return render(request, 'space/error.html', {'error_message': 'Espaço não encontrado'})
+
+    # Verifique se o perfil do usuário corresponde à área do espaço
+    if request.user.perfil.area != space.area.area:
+        return render(request, 'space/error.html', {'error_message': 'Acesso restrito'})
+
     temas = Tema.objects.filter(space_id=space_id).order_by('nome')
     space_id = space_id
 

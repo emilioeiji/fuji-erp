@@ -48,4 +48,9 @@
     background-color: orange !important;
 }
 
+a.disabled {
+    pointer-events: none;
+    color: #999;
+}
+
 object-position: bottom;

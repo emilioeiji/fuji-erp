@@ -18,7 +18,7 @@
                                     {% for topico in tema.topico_set.all %}
                                         {% for mensagem in mensagens_nao_lidas %}
                                             {% if mensagem.mensagem__topico == topico.id %}
-                                                <span class="text-warning">
+                                                <span class="text-danger">
                                                     <i class="fa-solid fa-circle-exclamation"></i>
                                                 </span>
                                             {% endif %}
@@ -35,7 +35,7 @@
                                                         {{ topico.topico }}
                                                         {% for mensagem in mensagens_nao_lidas %}
                                                             {% if mensagem.mensagem__topico == topico.id %}
-                                                                <span class="badge bg-warning">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
+                                                                <span class="badge bg-danger">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </a>
@@ -62,6 +62,7 @@
                     <span>{{ topico.descricao }}</span>
     
                     <div class="message-list">
+                        <!--
                         <div class="row mt-3">
                             <form method="POST" action="{% url 'conteudo_topico' space_id tema_id %}">
                                 {% csrf_token %}
@@ -72,6 +73,40 @@
                                 <button type="submit" class="btn btn-primary mt-3" id="enviar-btn">Enviar</button>
                             </form>
                         </div>
+                        -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary mt-3 mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa-solid fa-comment-dots text-light"></i>
+                            Nova Mensagem
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Nova Mensagem</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row mt-3">
+                                            <form id="modalForm">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="mensagem">Nova Mensagem</label>
+                                                    <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="enviar-btn-modal">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+  
                         
                         {% for mensagem in mensagens %}
                             {% if not mensagem.mensagem_original %}
@@ -92,7 +127,7 @@
                                     <div class="row">
                                         <div class="d-flex align-items-center">
                                             {% if mensagem|is_lida_by_user:request.user %}
-                                                <i class="fa-solid fa-book-open text-muted me-2"></i>
+                                                <i class="fa-solid fa-book-open text-dark me-2"></i>
                                             {% else %}
                                                 <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id mensagem.id %}">
                                                     <i class="fa-solid fa-book text-warning me-2"></i>
@@ -123,7 +158,7 @@
                                                 <div class="row">
                                                     <div class="d-flex align-items-center">
                                                         {% if resposta|is_lida_by_user:request.user %}
-                                                            <i class="fa-solid fa-book-open text-muted me-2"></i>
+                                                            <i class="fa-solid fa-book-open text-dark me-2"></i>
                                                         {% else %}
                                                             <a href="{% url 'marcar_mensagem_lida' mensagem.topico.tema.space_id mensagem.topico.id resposta.id %}">
                                                                 <i class="fa-solid fa-book text-warning me-2"></i>
@@ -177,6 +212,37 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            // Quando o botão "Enviar" do modal for clicado
+            $("#enviar-btn-modal").click(function () {
+                // Obter o formulário
+                var form = $("#modalForm");
+    
+                // Enviar o formulário usando AJAX
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"), // Use a URL do formulário
+                    data: form.serialize(), // Obtenha os dados do formulário
+                    success: function (data) {
+                        // Lidar com a resposta aqui, se necessário
+                        console.log(data);
+                        // Fechar o modal após enviar o formulário
+                        $("#exampleModal").modal("hide");
+                        // Limpar o texto do campo de texto
+                        $("#mensagem").val("");
+                        // Recarregar a página após enviar o formulário
+                        location.reload();
+                    },
+                    error: function (error) {
+                        // Lidar com erros aqui, se necessário
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    
     
 
 {% endblock %}

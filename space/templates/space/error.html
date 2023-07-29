@@ -1,0 +1,25 @@
+{% extends 'space_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% block title %} Space {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="card mt-3">
+                    <div class="card-header bg-danger text-light">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Erro
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ error_message }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

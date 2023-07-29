@@ -17,7 +17,7 @@
                                     {% for topico in tema.topico_set.all %}
                                         {% for mensagem in mensagens_nao_lidas %}
                                             {% if mensagem.mensagem__topico == topico.id %}
-                                                <span class="text-warning">
+                                                <span class="text-danger">
                                                     <i class="fa-solid fa-circle-exclamation"></i>
                                                 </span>
                                             {% endif %}
@@ -34,7 +34,7 @@
                                                         {{ topico.topico }}
                                                         {% for mensagem in mensagens_nao_lidas %}
                                                             {% if mensagem.mensagem__topico == topico.id %}
-                                                                <span class="badge bg-warning">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
+                                                                <span class="badge bg-danger">{{ mensagem.qtd_mensagens_nao_lidas }}</span>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </a>
