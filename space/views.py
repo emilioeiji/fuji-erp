@@ -28,7 +28,7 @@ def lista_mensagens(request, space_id):
         return render(request, 'space/error.html', {'error_message': 'Espaço não encontrado'})
 
     # Verifique se o perfil do usuário corresponde à área do espaço
-    if request.user.perfil.area != space.area.area:
+    if request.user.perfil.area != space.area.area and space.area.area != 'Geral':
         return render(request, 'space/error.html', {'error_message': 'Acesso restrito'})
 
     temas = Tema.objects.filter(space_id=space_id).order_by('nome')

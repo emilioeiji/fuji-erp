@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'ckeditor',
+    'ckeditor_uploader',
     'home.apps.HomeConfig',
     'cadastro.apps.CadastroConfig',
     'contas.apps.ContasConfig',
@@ -67,6 +69,14 @@ TEMPLATES = [
         },
     },
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 300,
+        'width': 800,
+    },
+}
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
@@ -122,6 +132,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
 MEDIA_URL = 'img/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles/'),

@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
@@ -52,7 +53,7 @@ class Topico(models.Model):
 class Mensagem(models.Model):
     topico = models.ForeignKey(Topico, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    mensagem = models.TextField()
+    mensagem = RichTextField()
     mensagem_original = models.ForeignKey(
         'self', null=True, blank=True, related_name='respostas', on_delete=models.CASCADE)
     data_hora_criacao = models.DateTimeField(default=timezone.now)

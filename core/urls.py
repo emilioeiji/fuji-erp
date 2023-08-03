@@ -11,4 +11,5 @@ urlpatterns = [
     path('calendario/', include('calendario.urls')),
     path('uniforme/', include('uniforme.urls')),
     path('space/', include('space.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

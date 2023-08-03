@@ -13,7 +13,7 @@
                 <ul class="list-group list-group-flush">
                     {% for space in spaces %}
                         <li class="list-group-item">
-                            <a class="text-decoration-none {% if space.area.area == perfil.area %}active-link{% else %}disabled{% endif %}" {% if space.area.area != perfil.area %}disabled{% endif %} href="{% url 'lista_mensagens' space.id %}">
+                            <a class="text-decoration-none {% if space.area.area == perfil.area or space.area.area == 'Geral' %}active-link{% else %}disabled{% endif %}" {% if space.area.area != perfil.area %}disabled{% endif %} href="{% url 'lista_mensagens' space.id %}">
                                 <div class="row d-flex">
                                     <div class="col">
                                         {{ space }}
