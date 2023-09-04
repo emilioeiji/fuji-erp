@@ -22,7 +22,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
 # ALLOWED_HOSTS = str(os.getenv('SERVERNAMES').split(' '))
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['erp.emilioeiji.com.br']
 
 SERVERNAMES = os.getenv('SERVERNAMES')
 if SERVERNAMES:
