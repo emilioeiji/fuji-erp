@@ -63,16 +63,18 @@ class Mensagem(models.Model):
         return self.leituramensagem_set.filter(usuario=user, lida=True).exists()
 
     def __str__(self):
-        return self.mensagem
+        return f"{self.id} - {self.mensagem}"
 
 
 @receiver(post_save, sender=Mensagem)
 def criar_leitura_mensagem(sender, instance, created, **kwargs):
     if created:
-        usuarios = User.objects.filter(
-            Q(perfil__area=instance.topico.tema.space.area.area) | Q(
-                id=instance.usuario_id)
-        )
+        usuarios = User.objects.all()
+
+        if instance.topico.tema.space.nome != 'Geral':
+            # Se o espaço não for "Geral", filtre os usuários com a mesma área
+            usuarios = usuarios.filter(
+                perfil__area=instance.topico.tema.space.area.area)
 
         for usuario in usuarios:
             # Verifica se o usuário é o mesmo que criou a mensagem

@@ -19,7 +19,11 @@
                                         {{ space }}
                                     </div>
                                     <div class="col-auto align-self-center">
-                                        {% if total_mensagens_nao_lidas > 0 and space.area.area == perfil.area %}
+                                        {% if total_mensagens_perfil > 0 and space.is_user_area %}
+                                            <span class="text-danger">
+                                                <i class="fa-solid fa-circle-exclamation"></i>
+                                            </span>
+                                        {% elif total_mensagens_gerais > 0 and space.is_geral %}
                                             <span class="text-danger">
                                                 <i class="fa-solid fa-circle-exclamation"></i>
                                             </span>

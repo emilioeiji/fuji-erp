@@ -12,6 +12,10 @@ def space(request):
     spaces = Space.objects.all().order_by('area')
     perfil = Perfil.objects.get(usuario=request.user)
 
+    for space in spaces:
+        space.is_geral = space.area.area == 'Geral'
+        space.is_user_area = space.area.area == perfil.area
+
     context = {
         'spaces': spaces,
         'perfil': perfil,
