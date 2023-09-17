@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from cadastro.models import GrupoFolga, Master, PostoTrabalho
+from cadastro.models import Area, GrupoFolga, Master, PostoTrabalho
 
 
 class FuncionarioCalendario(models.Model):
@@ -65,6 +65,7 @@ class Calendario(models.Model):
     objects = CalendarioManager()
     mes = models.PositiveIntegerField()
     ano = models.PositiveIntegerField()
+    area = models.ForeignKey(Area, on_delete=models.PROTECT)
     bloqueado = models.BooleanField(default=False)
 
     def obter_matriz_alocacao(self):
