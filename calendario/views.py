@@ -123,7 +123,7 @@ def excluir_funcionario_calendario(request, funcionario_calendario_id):
 
 @login_required()
 def calendario(request):
-    calendario = Calendario.objects.all().order_by('-ano', '-mes')
+    calendario = Calendario.objects.all().order_by('area', '-ano', '-mes')
 
     context = {
         'calendario': calendario,

@@ -18,8 +18,8 @@
                 <div class="card m-1" style="width: 18rem;">
                     <div class="card-body">
                     <h5 class="card-title">
-                        <a class="text-decoration-none" href="#">
-                            {{ cal.ano }} - {{ cal.mes }}
+                        <a class="text-decoration-none" href="{% url 'listar_funcionarios' cal.mes cal.ano %}">
+                            {{ cal.area }} - {{ cal.ano }} - {{ cal.mes }}
                         </a>
                     </h5>
                     </div>

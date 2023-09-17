@@ -33,7 +33,7 @@
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a href="{% url 'excluir_funcionario_calendario' funcionario_calendario_id=funcionario_calendario.id %}" class="btn btn-danger">Excluir</a>
-                        <a href="{% url 'listar_funcionarios' %}" class="btn btn-secondary">Voltar</a>
+                        <a href="javascript:void(0);" class="btn btn-secondary" onclick="history.back();">Voltar</a>
                     </div>
 
                 </form>

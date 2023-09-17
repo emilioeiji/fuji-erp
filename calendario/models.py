@@ -94,10 +94,10 @@ class Calendario(models.Model):
         return matriz_alocacao
 
     class Meta:
-        ordering = ['-mes', '-ano']
+        ordering = ['area', '-ano', '-mes']
 
     def __str__(self):
-        return f"{self.mes} - {self.ano}"
+        return f"{self.area} - {self.mes} - {self.ano}"
 
 
 class DiaCalendario(models.Model):
