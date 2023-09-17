@@ -95,6 +95,11 @@ class Calendario(models.Model):
 
     class Meta:
         ordering = ['area', '-ano', '-mes']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['area', 'mes', 'ano'], name='unique_calendario_mes'
+            )
+        ]
 
     def __str__(self):
         return f"{self.area} - {self.mes} - {self.ano}"

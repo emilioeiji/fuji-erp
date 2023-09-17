@@ -28,8 +28,9 @@
                     <tr>
                         <td>
                             <a class="text-decoration-none" href="{% url 'editar_funcionario_calendario' funcionario_calendario_id=funcionario.id %}">
-                                {{ funcionario.funcionario.codigoEmpregado }}</td>
+                                {{ funcionario.funcionario.codigoEmpregado }}
                             </a>
+                        </td>
                         <td class="{{ funcionario.estilo_grupo }}">{{ funcionario.funcionario.nomeRomanji }}</td>
                         <td class="{{ funcionario.estilo_ririfu }}">{{ funcionario.funcionario.nomeJapones }} </td>
                         <td class="{{ funcionario.estilo_treinador }}">{{ funcionario.funcionario.codigoCdMurata}}</td>
