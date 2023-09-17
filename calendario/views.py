@@ -35,6 +35,8 @@ def lista_funcionario_calendario(request, mes, ano):
 
         if str(funcionario.funcionario.precoUnitario.nomePrecoUnitario) == 'ﾄﾚｰﾅｰ':
             funcionario.estilo_treinador = 'bg-treinador'
+        elif str(funcionario.funcionario.precoUnitario.nomePrecoUnitario) == '工程ﾘｰﾀﾞｰ':
+            funcionario.estilo_treinador = 'bg-kl'
         else:
             funcionario.estilo_treinador = ''
 
