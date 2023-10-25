@@ -153,7 +153,7 @@ def calendario_mes(request):
     calendario_mes = Alocacao.objects.all().order_by('dia')
     calendario_dia = DiaCalendario.objects.filter(
         data__year=2023,
-        data__month=7).order_by('data')
+        data__month=9).order_by('data')
 
     context = {
         'calendario_mes': calendario_mes,
