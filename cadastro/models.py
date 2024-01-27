@@ -41,7 +41,6 @@ class Linha(models.Model):
 
 
 class Area(models.Model):
-    linha = models.ForeignKey(Linha, on_delete=models.PROTECT)
     area = models.CharField(max_length=10, help_text="Area da linha")
 
     class Meta:
